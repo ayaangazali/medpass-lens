@@ -6,11 +6,11 @@ import { readFamilyRecords } from "../db";
 import { ApiFailure, decodeBody, type FamilyEnv } from "../http";
 import type { Finchnode } from "../integrations/finchnode";
 import { explainTrend } from "../trends";
-import { readCareFacts } from "./care-profile";
+import { readCareFacts, requireHealthRecords } from "./care-profile";
 import { familyLabs } from "./finchnode";
 
 export const trendRoutes = (finchnode: Finchnode | undefined) =>
-	new Hono<FamilyEnv>().post("/trends", async (c) => {
+	new Hono<FamilyEnv>().post("/trends", requireHealthRecords, async (c) => {
 		const { question, days = 7 } = await decodeBody(c, TrendQuestion);
 		const { db, familyId } = c.var;
 		// A lab outage leaves the labs unknown; the other records still answer.

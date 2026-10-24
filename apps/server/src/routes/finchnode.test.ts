@@ -11,6 +11,7 @@ import {
 	dbConfig,
 	failure,
 	familyApp,
+	joinFamily,
 	openFamily,
 	send,
 	withDb,
@@ -154,6 +155,16 @@ describe.skipIf(dbConfig === undefined)("Finchnode records", () => {
 				});
 				const { performer: _, resourceType: __, ...kept } = lab;
 				expect(granted?.labs).toEqual([kept]);
+
+				const helper = yield* joinFamily(config, family.db, familyId, []);
+				const helperApp = familyApp(
+					helper,
+					familyId,
+					finchnodeRoutes(finchnode),
+				);
+				expect(
+					failure(yield* send(helperApp, "GET", "/finchnode/labs")),
+				).toEqual([403, "forbidden"]);
 
 				records = {
 					status: 410,

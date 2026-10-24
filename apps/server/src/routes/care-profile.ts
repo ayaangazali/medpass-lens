@@ -88,10 +88,7 @@ export const requireScope = (c: Ctx, scope: CareScope) => {
  * holds `health_records` or is the wearer (the family's first member), who always reads their own.
  * The module's `healthReader` views apply the same rule.
  */
-export const requireHealthRecords: MiddlewareHandler<FamilyEnv> = async (
-	c,
-	next,
-) => {
+export const readsHealthRecords = (c: Ctx) => {
 	let wearer: { id: bigint; member: Identity } | undefined;
 	for (const m of c.var.db.connection.db.myFamilyMembers.iter())
 		if (
@@ -99,8 +96,17 @@ export const requireHealthRecords: MiddlewareHandler<FamilyEnv> = async (
 			(wearer === undefined || m.id < wearer.id)
 		)
 			wearer = m;
-	if (wearer?.member.toHexString() !== c.var.db.identity)
-		requireScope(c, "health_records");
+	return (
+		wearer?.member.toHexString() === c.var.db.identity ||
+		readAccess(c).mine.includes("health_records")
+	);
+};
+
+export const requireHealthRecords: MiddlewareHandler<FamilyEnv> = async (
+	c,
+	next,
+) => {
+	if (!readsHealthRecords(c)) requireScope(c, "health_records");
 	await next();
 };
 

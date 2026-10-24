@@ -13,6 +13,7 @@ import {
 	sessionSubject,
 	subjectLabs,
 } from "../integrations/finchnode";
+import { requireHealthRecords } from "./care-profile";
 
 const link = (
 	db: FamilyDb,
@@ -72,7 +73,7 @@ const connectedRoutes = (finchnode: Finchnode) =>
 				synthetic: finchnode.synthetic,
 			} satisfies FinchnodeSession);
 		})
-		.get("/finchnode/labs", async (c) =>
+		.get("/finchnode/labs", requireHealthRecords, async (c) =>
 			c.json({
 				subjects: await familyLabs(
 					finchnode,
