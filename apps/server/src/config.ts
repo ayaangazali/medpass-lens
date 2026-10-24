@@ -228,7 +228,7 @@ export const serverConfig = (env: Env): ServerConfig => {
 		env.FINCHNODE_API_KEY,
 	);
 	return {
-		corsOrigin: env.CORS_ORIGIN.split(","),
+		corsOrigin: env.CORS_ORIGIN.split(",").map((origin) => origin.trim()),
 		voice: {
 			apiKey: env.ELEVENLABS_API_KEY,
 			voiceId: env.ELEVENLABS_VOICE_ID,

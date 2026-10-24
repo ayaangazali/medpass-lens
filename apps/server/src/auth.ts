@@ -90,6 +90,7 @@ const oidcVerifier = (issuer: string, audience: string) => {
 			(!known && age > unknownKidRefetchMs)
 		)
 			return loadKeys().catch(() => {
+				if (cache !== undefined) return cache.keys;
 				throw new ApiFailure(
 					"unavailable",
 					"The sign-in provider is not reachable",
