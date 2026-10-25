@@ -32,7 +32,7 @@ export function FamilyGate({
 	emptyClassName,
 	children,
 }: {
-	data: FamilyData;
+	data: Pick<FamilyData, "familyState" | "family">;
 	/** Classes for the "no person" paragraph. */
 	emptyClassName: string;
 	children: (family: Family) => ReactNode;

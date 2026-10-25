@@ -9,6 +9,7 @@ import {
 	House,
 	type LucideIcon,
 	MessageCircle,
+	Pill,
 	ScanSearch,
 	Settings,
 	Users,
@@ -34,6 +35,7 @@ export const familyScreens = [
 		tabs: [
 			{ to: "/family", label: "Overview" },
 			{ to: "/family/daily", label: "Daily" },
+			{ to: "/family/mar", label: "Med record" },
 			{ to: "/family/reminders", label: "Reminders" },
 			{ to: "/family/exercise", label: "Exercise" },
 			{ to: "/family/cooking", label: "Cooking" },
@@ -42,6 +44,7 @@ export const familyScreens = [
 			{ to: "/family/thresholds", label: "Thresholds" },
 		],
 	},
+	{ to: "/rounds", label: "Med pass", icon: Pill },
 	{ to: "/chat", label: "Chat", icon: MessageCircle },
 	{
 		to: "/care",
@@ -90,7 +93,7 @@ const homeChildren = [
 
 /** The 3 screens pinned to the phone taskbar in each view. */
 export const pinned = {
-	family: [familyScreens[0], familyScreens[1], familyScreens[4]],
+	family: [familyScreens[0], familyScreens[2], familyScreens[5]],
 	wearer: [wearerScreens[0], wearerScreens[1], wearerScreens[2]],
 } as const;
 
