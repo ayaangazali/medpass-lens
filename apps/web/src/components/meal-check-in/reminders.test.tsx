@@ -256,6 +256,20 @@ describe("MealReminders", () => {
 		]);
 	});
 
+	test("an edit while the settings did not load leaves them alone", async () => {
+		const { view, writes } = show({
+			...reads([reminder()]),
+			[`GET ${SETTINGS}`]: { status: 503 },
+			[`POST ${REMINDERS}`]: added({}),
+			[`DELETE ${REMINDERS}/9`]: { status: 204 },
+		});
+		fireEvent.click(await view.findByRole("button", { name: "Edit Lunch" }));
+		fireEvent.submit(await view.findByRole("form", { name: "Edit reminder" }));
+		await waitFor(() =>
+			expect(writes().map((w) => w.method)).toEqual(["POST", "DELETE"]),
+		);
+	});
+
 	test("a failed save keeps the dialog open with the server's message, and deletes nothing", async () => {
 		const { view, writes } = show({
 			...reads([reminder()]),
