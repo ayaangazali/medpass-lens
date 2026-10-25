@@ -78,6 +78,7 @@ function ConfirmDialog({
 	const [busy, setBusy] = useState(false);
 	const [failure, setFailure] = useState<ApiFailure | null>(null);
 	const remove = async () => {
+		setBusy(true);
 		const result = await apiRequest(null, familyPath(familyId), {
 			method: "DELETE",
 			body: { name: typed },
