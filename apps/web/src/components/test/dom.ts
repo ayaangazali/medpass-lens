@@ -35,8 +35,8 @@ export type Routes = Record<
 
 /** Call at the top of a component test file. */
 export function installDom() {
+	registerDom();
 	beforeAll(async () => {
-		registerDom();
 		// Dynamic for the same reason as React DOM: the query library checks for `window` on load.
 		const { prepareQueryCache } = await import("@/lib/test/query");
 		prepareQueryCache();

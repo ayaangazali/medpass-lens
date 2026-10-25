@@ -1,12 +1,11 @@
 import "./test/setup";
 
 import { afterEach, describe, expect, test } from "bun:test";
-import { useTheme } from "next-themes";
 import { act, installDom, render, waitFor } from "./test/dom";
 
-import { ThemeProvider } from "./theme-provider";
-
 installDom();
+const { useTheme } = await import("next-themes");
+const { ThemeProvider } = await import("./theme-provider");
 
 const root = () => document.documentElement;
 
