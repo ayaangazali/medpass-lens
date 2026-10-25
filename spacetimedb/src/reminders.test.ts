@@ -306,36 +306,37 @@ describe("runReminderTimer", () => {
 		expect(occ(h).nextPromptAt).toEqual(at("2026-01-05T15:00:00Z"));
 	});
 
-	test.each(["meal", "hydration"])(
-		"an unresolved %s check-in asks the ladder once",
-		(kind) => {
-			const h = setup({ maxPrompts: 1 }, kind);
-			fire(h);
-			fire(h);
-			expect(h.rows("careNeed")).toEqual([]); // no ladder, no need
-			const h2 = setup({ maxPrompts: 1 }, kind);
-			h2.call(mod.setContactLadder, alice, {
-				familyId: 1n,
-				contacts: [
-					{
-						member: bob,
-						name: "Bob",
-						timeZone: "UTC",
-						detail: { tag: "Summary" },
-						callFor: [],
-					},
-				],
-				backup: undefined,
-				answerSeconds: 60,
-				followUpSeconds: 60,
-			});
-			fire(h2);
-			fire(h2);
-			expect(h2.rows("careNeed")).toMatchObject([
-				{ kind: { tag: "Help" }, summary: "Pills: no answer after 1 prompts" },
-			]);
-		},
-	);
+	test.each([
+		["meal", "no answer after 1 prompts"],
+		["hydration", "no answer after 1 prompts"],
+		["medication", "dose not recorded as given"],
+	])("an unresolved %s check-in asks the ladder once", (kind, why) => {
+		const h = setup({ maxPrompts: 1 }, kind);
+		fire(h);
+		fire(h);
+		expect(h.rows("careNeed")).toEqual([]); // no ladder, no need
+		const h2 = setup({ maxPrompts: 1 }, kind);
+		h2.call(mod.setContactLadder, alice, {
+			familyId: 1n,
+			contacts: [
+				{
+					member: bob,
+					name: "Bob",
+					timeZone: "UTC",
+					detail: { tag: "Summary" },
+					callFor: [],
+				},
+			],
+			backup: undefined,
+			answerSeconds: 60,
+			followUpSeconds: 60,
+		});
+		fire(h2);
+		fire(h2);
+		expect(h2.rows("careNeed")).toMatchObject([
+			{ kind: { tag: "Help" }, summary: `Pills: ${why}` },
+		]);
+	});
 });
 
 describe("recordReminderDelivery", () => {

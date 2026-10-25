@@ -2961,17 +2961,23 @@ const recordReminderEvent = (
 		wording: answer.wording,
 	});
 
-// A meal or drink check-in that ends unresolved asks the family contact ladder for help (#32), the
-// same way an alert does: only when the family has a ladder. An occurrence ends unresolved at most
-// once, so this opens at most one need per check-in.
 const mealCheckInNeed = (
 	ctx: Ctx,
 	occurrence: OccurrenceRow,
 	wording: string | undefined,
 ) => {
-	if (occurrence.kind !== "meal" && occurrence.kind !== "hydration") return;
+	if (
+		occurrence.kind !== "meal" &&
+		occurrence.kind !== "hydration" &&
+		occurrence.kind !== "medication"
+	)
+		return;
 	if (ctx.db.contactLadder.familyId.find(occurrence.familyId) === null) return;
-	const why = wording ?? `no answer after ${occurrence.prompts} prompts`;
+	const why =
+		wording ??
+		(occurrence.kind === "medication"
+			? "dose not recorded as given"
+			: `no answer after ${occurrence.prompts} prompts`);
 	openNeed(ctx, {
 		familyId: occurrence.familyId,
 		kind: { tag: "Help" },
@@ -3297,8 +3303,6 @@ export const runReminderTimer = spacetimedb.reducer(
 			);
 		const settings = requireReminderSettings(ctx, occurrence.familyId);
 		if (occurrence.prompts >= settings.maxPrompts) {
-			// Silence settles nothing and never dispatches help. Only a meal or drink check-in asks
-			// the family ladder (#32); every other kind stays visibly open and contacts nobody.
 			recordReminderEvent(ctx, occurrence, "unresolved", {
 				source: "scheduler",
 			});
