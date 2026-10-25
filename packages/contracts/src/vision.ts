@@ -1,5 +1,6 @@
 import { Schema } from "effect";
 import { isBase64 } from "./ask";
+import { UtcTime } from "./families";
 
 /** Largest decoded image the vision route accepts. Clients downscale larger frames first. */
 export const MAX_VISION_IMAGE_BYTES = 4 * 1024 * 1024;
@@ -9,9 +10,6 @@ const Pixels = Schema.Int.check(
 );
 const Offset = Schema.Int.check(
 	Schema.isBetween({ minimum: 0, maximum: 16383 }),
-);
-export const UtcTime = Schema.String.check(
-	Schema.isPattern(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,9})?Z$/),
 );
 
 /** A rectangle in camera-frame pixels; `x`/`y` is the top-left corner. */
