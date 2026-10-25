@@ -19,10 +19,12 @@ export function VoiceButton({
 }) {
 	const [voice, setVoice] = useState<keyof typeof VOICE_LABEL>("idle");
 	const recorder = useRef<MediaRecorder | null>(null);
+	const handler = useRef(onRecording);
+	handler.current = onRecording;
 
 	const transcribe = async (audio: Blob) => {
 		setVoice("transcribing");
-		setStatus(await onRecording(audio));
+		setStatus(await handler.current(audio));
 		setVoice("idle");
 	};
 
