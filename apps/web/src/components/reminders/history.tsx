@@ -5,6 +5,7 @@ import {
 	type ReminderEvent,
 	ReminderHistory,
 	type ReminderOccurrence,
+	ReminderOccurrenceDetail,
 	type ReminderState,
 } from "@health/contracts/reminders";
 import { Button } from "@health/ui/components/button";
@@ -92,15 +93,15 @@ export function ReminderHistorySection({
 const VERDICT = {
 	match: {
 		title: "Matches",
-		tone: "border-green-700 bg-green-50 text-green-900",
+		tone: "border-green-700 bg-green-50 text-green-900 dark:border-green-500 dark:bg-green-950 dark:text-green-100",
 	},
 	mismatch: {
 		title: "Does not match. Do not give this dose.",
-		tone: "border-red-700 bg-red-50 text-red-900",
+		tone: "border-red-700 bg-red-50 text-red-900 dark:border-red-500 dark:bg-red-950 dark:text-red-100",
 	},
 	retake: {
 		title: "Take the picture again",
-		tone: "border-amber-600 bg-amber-50 text-amber-900",
+		tone: "border-amber-600 bg-amber-50 text-amber-900 dark:border-amber-500 dark:bg-amber-950 dark:text-amber-100",
 	},
 } as const;
 
@@ -117,6 +118,7 @@ function LabelScan({
 	>(null);
 	const send = async (file: File) => {
 		setResult({ kind: "checking" });
+		setGiven(null);
 		const bitmap = await createImageBitmap(file).catch(() => null);
 		const frame = bitmap === null ? null : capture(bitmap);
 		bitmap?.close();
@@ -135,6 +137,29 @@ function LabelScan({
 				{
 					method: "POST",
 					body: { image: { type: "image/jpeg", data: frame.data } },
+				},
+			),
+		);
+	};
+	const [given, setGiven] = useState<
+		ApiResult<ReminderOccurrenceDetail> | { kind: "saving" } | null
+	>(null);
+	const markGiven = async (check: LabelCheck) => {
+		setGiven({ kind: "saving" });
+		setGiven(
+			await apiRequest(
+				ReminderOccurrenceDetail,
+				familyPath(
+					familyId,
+					`/reminder-occurrences/${encodeURIComponent(occurrence.id)}/confirmations`,
+				),
+				{
+					method: "POST",
+					body: {
+						clientId: crypto.randomUUID(),
+						source: "web",
+						wording: `Label matched: ${check.read.drugName} for ${check.read.patientName}`,
+					},
 				},
 			),
 		);
@@ -167,7 +192,10 @@ function LabelScan({
 			/>
 			{result?.kind === "checking" && <p role="status">Checking the label…</p>}
 			{result?.kind === "ready" && verdict !== null && (
-				<div className={`border-2 p-2 ${verdict.tone}`} role="alert">
+				<div
+					className={`grid gap-1 rounded-md border-2 p-2 ${verdict.tone}`}
+					role="alert"
+				>
 					<p className="font-bold">{verdict.title}</p>
 					{result.value.verdict === "match" && (
 						<p>
@@ -179,6 +207,26 @@ function LabelScan({
 							<li key={reason}>{reason}</li>
 						))}
 					</ul>
+					{result.value.verdict === "match" &&
+						(given?.kind === "ready" ? (
+							<p role="status">Recorded as given.</p>
+						) : (
+							<Button
+								className="win95-primary h-11 justify-self-start"
+								disabled={given?.kind === "saving"}
+								onClick={() => void markGiven(result.value)}
+								type="button"
+							>
+								Mark given
+							</Button>
+						))}
+					{given !== null &&
+						given.kind !== "saving" &&
+						given.kind !== "ready" && (
+							<p className="break-words" role="alert">
+								{failureText(given)}
+							</p>
+						)}
 				</div>
 			)}
 			{result !== null &&
