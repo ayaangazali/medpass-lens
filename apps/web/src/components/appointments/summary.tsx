@@ -193,7 +193,7 @@ export function SummaryPanel({
 				run={run}
 			/>
 			<p className="text-xs">
-				Clinician updates are simulated: Telly has no approved clinician
+				Clinician updates are simulated: MedPass Lens has no approved clinician
 				channel. Sent does not mean read. Routine updates are not emergency
 				monitoring.
 			</p>

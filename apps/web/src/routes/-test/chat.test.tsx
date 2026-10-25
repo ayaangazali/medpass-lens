@@ -221,7 +221,7 @@ test("an unavailable server shows the outage, blocks Send, and Try again reloads
 	).toBe(true);
 	expect(
 		screen.getByRole("link", { name: "Contact support" }).getAttribute("href"),
-	).toBe("mailto:vexzyl@pm.me?subject=Telly%20support");
+	).toBe("mailto:vexzyl@pm.me?subject=MedPass Lens%20support");
 
 	fireEvent.click(screen.getByRole("button", { name: "Try again" }));
 

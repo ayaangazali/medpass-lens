@@ -36,4 +36,6 @@ export const senderLabel = (
 	message: { readonly sender: string; readonly clientId: string },
 	me: string | null,
 ): string =>
-	isAlertMessage(message) ? "Telly alert" : memberLabel(message.sender, me);
+	isAlertMessage(message)
+		? "MedPass Lens alert"
+		: memberLabel(message.sender, me);

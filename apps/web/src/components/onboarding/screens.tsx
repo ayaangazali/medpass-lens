@@ -96,7 +96,7 @@ export function WelcomeScreen({
 					)}
 				</div>
 			</div>
-			<p>Are you setting up Telly for someone, or joining a family?</p>
+			<p>Are you setting up MedPass Lens for someone, or joining a family?</p>
 			<Button
 				type="button"
 				className="win95-primary grid h-auto min-h-11 w-full py-2"

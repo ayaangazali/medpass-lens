@@ -65,7 +65,7 @@ export function HelpHome({
 			const message =
 				contact === undefined
 					? "Nobody is set up to be contacted yet. Your request stays open on the Care page. Call instead."
-					: `I asked ${contact.name}. Telly keeps asking your family until someone says they will help.`;
+					: `I asked ${contact.name}. MedPass Lens keeps asking your family until someone says they will help.`;
 			setHelp({ kind: "sent", message });
 			void say("help", message);
 		} else

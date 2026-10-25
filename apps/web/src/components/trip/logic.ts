@@ -66,9 +66,9 @@ export const helpMessage = (awaySince: string | null, sharing: boolean) =>
 		"I need help getting home.",
 		awaySince === null ? null : `I left home at ${timeOf(awaySince)}.`,
 		sharing
-			? "If I share my location with you, you can see it on Telly's Family screen."
-			: "I have not shared my location in Telly.",
-		"Sent with Telly's Help me get home button.",
+			? "If I share my location with you, you can see it on MedPass Lens's Family screen."
+			: "I have not shared my location in MedPass Lens.",
+		"Sent with MedPass Lens's Help me get home button.",
 	]
 		.filter((line) => line !== null)
 		.join(" ");

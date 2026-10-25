@@ -19,7 +19,7 @@ test("only the alert worker's client id marks an alert message", () => {
 
 test("the sender of a family message", () => {
 	expect(senderLabel({ sender: other, clientId: "alert-1" }, other)).toBe(
-		"Telly alert",
+		"MedPass Lens alert",
 	);
 	expect(senderLabel({ sender: me, clientId: "m-1" }, me)).toBe("You");
 	expect(senderLabel({ sender: other, clientId: "m-2" }, me)).toBe(

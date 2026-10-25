@@ -68,19 +68,21 @@ test("/ redirects to Family inside the app layout with its head tags", async () 
 	const { router } = renderRoute("/");
 	await waitFor(() => expect(router.state.location.pathname).toBe("/family"));
 	expect(screen.getAllByRole("navigation").length).toBeGreaterThan(0);
-	await waitFor(() => expect(document.title).toBe("Family · Telly"));
+	await waitFor(() => expect(document.title).toBe("Family · MedPass Lens"));
 	expect(
 		document.querySelector('meta[name="description"]')?.getAttribute("content"),
-	).toBe("Telly: day-to-day help for memory loss, with the family in the loop");
+	).toBe(
+		"MedPass Lens: day-to-day help for memory loss, with the family in the loop",
+	);
 });
 
 test("each page names itself in the tab title", async () => {
 	for (const [path, title] of [
-		["/sign-in", "Sign in · Telly"],
-		["/find", "Find · Telly"],
-		["/settings/device", "Device · Telly"],
-		["/family/alerts", "Alerts · Telly"],
-		["/hud", "HUD · Telly"],
+		["/sign-in", "Sign in · MedPass Lens"],
+		["/find", "Find · MedPass Lens"],
+		["/settings/device", "Device · MedPass Lens"],
+		["/family/alerts", "Alerts · MedPass Lens"],
+		["/hud", "HUD · MedPass Lens"],
 	] as const) {
 		if (path !== "/sign-in") signIn();
 		serve({ "GET /api/families": { families: [FAMILY] } });

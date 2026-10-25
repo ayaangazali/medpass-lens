@@ -127,7 +127,7 @@ function ThingList({
 					<Plus aria-hidden />
 					Add a thing
 				</Link>
-				<Tip text="Telly remembers where each saved thing was last seen, with a small picture. Only this member, family admins, and caregivers can see them." />
+				<Tip text="MedPass Lens remembers where each saved thing was last seen, with a small picture. Only this member, family admins, and caregivers can see them." />
 			</div>
 			{sightings.length === 0 ? (
 				<p className="font-bold">No saved things yet.</p>

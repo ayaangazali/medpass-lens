@@ -112,7 +112,10 @@ export function ConnectScreen({ family }: { family: Family }) {
 								on the iPhone that runs NOOP. NOOP then sends the strap's
 								readings to {family.name}. A new link stops the old one.
 							</p>
-							<ShareLink link={whoopLink} title="Connect WHOOP to Telly" />
+							<ShareLink
+								link={whoopLink}
+								title="Connect WHOOP to MedPass Lens"
+							/>
 						</div>
 					)}
 				</Row>

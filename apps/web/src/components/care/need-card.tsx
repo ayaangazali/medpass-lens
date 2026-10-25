@@ -81,8 +81,8 @@ export function NeedCard({
 			</ol>
 			{need.status === "accepted" && need.followUpBy !== null && (
 				<p className="text-xs">
-					If help is not confirmed by {time(need.followUpBy)}, Telly asks the
-					next contact.
+					If help is not confirmed by {time(need.followUpBy)}, MedPass Lens asks
+					the next contact.
 				</p>
 			)}
 			{actions.length > 0 && (

@@ -62,7 +62,7 @@ export function ThisIsHome({ className }: { className: string }) {
 								"code" in error &&
 								error.code === 1
 							? "Location is off for this app. Allow it, then try again."
-							: "Telly could not find where you are. Try again.",
+							: "MedPass Lens could not find where you are. Try again.",
 				),
 		);
 		if (fix instanceof Error) {
@@ -73,7 +73,7 @@ export function ThisIsHome({ className }: { className: string }) {
 		if (accuracy > APPROXIMATE_METERS) {
 			setStep({
 				kind: "failed",
-				message: `Telly found your position only within ${accuracy} m. Go near a window and try again.`,
+				message: `MedPass Lens found your position only within ${accuracy} m. Go near a window and try again.`,
 			});
 			return;
 		}

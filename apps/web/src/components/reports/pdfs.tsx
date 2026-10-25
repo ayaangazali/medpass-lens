@@ -55,7 +55,7 @@ export function PdfActions({
 		);
 	};
 	const made = reports.find((r) => r.id === reportId)?.createdAt.slice(0, 10);
-	const filename = `Telly lab report ${made ?? reportId.slice(0, 8)}.pdf`;
+	const filename = `MedPass Lens lab report ${made ?? reportId.slice(0, 8)}.pdf`;
 
 	return (
 		<>

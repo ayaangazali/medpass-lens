@@ -143,7 +143,7 @@ describe("Preview PDF", () => {
 		expect(open.getAttribute("target")).toBe("_blank");
 		const download = within(dialog).getByRole("link", { name: "Download" });
 		expect(download.getAttribute("download")).toBe(
-			"Telly lab report 2026-03-01.pdf",
+			"MedPass Lens lab report 2026-03-01.pdf",
 		);
 		expect(calls.map((c) => `${c.method} ${c.path}`)).toEqual([PREVIEW]);
 		fireEvent.click(within(dialog).getByRole("button", { name: "Close" }));

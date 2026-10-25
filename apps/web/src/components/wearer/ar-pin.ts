@@ -69,8 +69,8 @@ const arFailed = (failure: ArFailure, flow: "pin" | "find"): ArOutcome => {
 			);
 		case "camera-denied":
 			return failed(
-				"Camera is off for Telly",
-				"Allow the camera for Telly in iPhone Settings, then try again.",
+				"Camera is off for MedPass Lens",
+				"Allow the camera for MedPass Lens in iPhone Settings, then try again.",
 			);
 		case "relocalization-failed":
 			return failed(

@@ -84,9 +84,9 @@ function EmailForm({
 				Automatically email reviewed reports
 			</label>
 			<p>
-				When a family member marks a lab report as reviewed, Telly emails its
-				PDF to this address once. Each report also has a "Send by email" button.
-				Only a family admin can change this.
+				When a family member marks a lab report as reviewed, MedPass Lens emails
+				its PDF to this address once. Each report also has a "Send by email"
+				button. Only a family admin can change this.
 			</p>
 			<label className="grid gap-1">
 				Recipient email

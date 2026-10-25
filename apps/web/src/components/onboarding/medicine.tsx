@@ -286,7 +286,7 @@ function RulesFields({
 	);
 	return (
 		<fieldset className="grid gap-2 border border-border p-2">
-			<legend className="px-1 font-bold">How Telly reminds</legend>
+			<legend className="px-1 font-bold">How MedPass Lens reminds</legend>
 			<p className="text-xs">
 				This family has no reminder rules yet. These are suggestions; change
 				them if needed.

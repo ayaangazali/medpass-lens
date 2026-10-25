@@ -19,7 +19,8 @@ import { buttonClass, fieldClass, useAction } from "./action";
 import { emptyPrep, localToUtc, prepOf } from "./logic";
 import { PrepFields, VisitCard } from "./visit";
 
-const NOTICE = "Telly books nothing: only the provider's confirmation does.";
+const NOTICE =
+	"MedPass Lens books nothing: only the provider's confirmation does.";
 
 export function AppointmentsScreen() {
 	const { state, family } = useFamily();

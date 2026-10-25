@@ -213,9 +213,9 @@ function RequestPanel({ appointment, base, idle, act, onClose }: PanelProps) {
 			onClose={onClose}
 		>
 			<p>
-				Telly has no scheduling access. This records your request only; nothing
-				is sent to {appointment.visit.clinician ?? "the provider"}, and the
-				visit is not booked until the provider confirms it.
+				MedPass Lens has no scheduling access. This records your request only;
+				nothing is sent to {appointment.visit.clinician ?? "the provider"}, and
+				the visit is not booked until the provider confirms it.
 			</p>
 			<label className="flex min-h-11 items-center gap-2">
 				<input

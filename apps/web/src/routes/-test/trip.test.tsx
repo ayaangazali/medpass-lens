@@ -325,7 +325,9 @@ test("help: sends one need, names the contact, and offers Mom and a typed home a
 		screen.getByRole("button", { name: "Tell my family I need help" }),
 	);
 	expect(
-		await screen.findByText(/I asked Mom\. Telly keeps asking your family/),
+		await screen.findByText(
+			/I asked Mom\. MedPass Lens keeps asking your family/,
+		),
 	).toBeTruthy();
 	const post = calls.find((c) => c.path.endsWith("/care/needs"));
 	expect(post?.method).toBe("POST");

@@ -49,8 +49,8 @@ function Join() {
 			<Window title="Join a family" icon={UserPlus}>
 				<div className="grid gap-3 p-2">
 					<p>
-						Someone invited you to their family on Telly. You join with no care
-						permissions; they grant them later.
+						Someone invited you to their family on MedPass Lens. You join with
+						no care permissions; they grant them later.
 					</p>
 					{error !== null && <p role="alert">{error}</p>}
 					<Button

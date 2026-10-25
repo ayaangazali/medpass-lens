@@ -171,7 +171,7 @@ test("an accepted need says when the ladder continues and lets the acceptor conf
 	).toBeDefined();
 	expect(
 		view.getByText(
-			/^If help is not confirmed by .*, Telly asks the next contact\.$/,
+			/^If help is not confirmed by .*, MedPass Lens asks the next contact\.$/,
 		),
 	).toBeDefined();
 	fireEvent.click(view.getByRole("button", { name: "Help confirmed" }));
@@ -195,6 +195,6 @@ test("a resolved need is closed: no follow-up deadline and no answers", () => {
 	expect(
 		view.getByRole("article", { name: "Call reminder: Help confirmed" }),
 	).toBeDefined();
-	expect(view.queryByText(/Telly asks the next contact/)).toBeNull();
+	expect(view.queryByText(/MedPass Lens asks the next contact/)).toBeNull();
 	expect(view.queryAllByRole("button")).toHaveLength(0);
 });

@@ -49,7 +49,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 			{
 				name: "description",
 				content:
-					"Telly: day-to-day help for memory loss, with the family in the loop",
+					"MedPass Lens: day-to-day help for memory loss, with the family in the loop",
 			},
 		],
 	}),
@@ -61,12 +61,12 @@ function tabTitle(fullPath: string): string {
 		.split("/")
 		.filter((s) => s && !s.startsWith("$"))
 		.at(-1);
-	if (!page) return "Telly";
+	if (!page) return "MedPass Lens";
 	const name =
 		page === "hud"
 			? "HUD"
 			: page.charAt(0).toUpperCase() + page.slice(1).replaceAll("-", " ");
-	return `${name} · Telly`;
+	return `${name} · MedPass Lens`;
 }
 
 function RootComponent() {

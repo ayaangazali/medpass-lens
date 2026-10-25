@@ -38,7 +38,7 @@ test("a tel: link keeps only a leading plus and the digits", () => {
 	expect(telHref("911")).toBe("tel:911");
 });
 
-test("a saved Telly phone is E.164; a number without a country code is a US number", () => {
+test("a saved MedPass Lens phone is E.164; a number without a country code is a US number", () => {
 	expect(toE164("(415) 595-1440")).toBe("+14155951440");
 	expect(toE164("1 415 595 1440")).toBe("+14155951440");
 	expect(toE164("+44 20 7946 0123")).toBe("+442079460123");

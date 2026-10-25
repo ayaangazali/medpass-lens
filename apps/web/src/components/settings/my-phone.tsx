@@ -46,7 +46,7 @@ function PhoneForm({ saved }: { saved: string | null }) {
 				autoComplete="tel"
 				className="win95-inset win95-field h-11 w-full bg-card px-2 text-base"
 				value={value}
-				placeholder="Telly does not answer you until you add it"
+				placeholder="MedPass Lens does not answer you until you add it"
 				aria-invalid={!valid}
 				aria-describedby={valid ? undefined : "settings-my-phone-error"}
 				onChange={(event) => {
@@ -75,11 +75,11 @@ function PhoneForm({ saved }: { saved: string | null }) {
 export function MyPhone() {
 	const state = useApi(TextTelly, PATH);
 	return (
-		<Window title="Settings · Text Telly" icon={MessageCircle}>
+		<Window title="Settings · Text MedPass Lens" icon={MessageCircle}>
 			<div className="grid gap-3 p-2 text-sm">
 				<p>
-					Text Telly from your phone to ask about medicines, reminders, and
-					where things are. Telly answers the number you save here.
+					Text MedPass Lens from your phone to ask about medicines, reminders,
+					and where things are. MedPass Lens answers the number you save here.
 				</p>
 				{state.kind === "ready" ? (
 					<PhoneForm saved={state.value.myPhone} />

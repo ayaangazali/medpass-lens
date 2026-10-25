@@ -15,7 +15,8 @@ import { type ReactNode, useId } from "react";
 import type { ApiFailure } from "@/lib/api";
 
 /** Contact support. Subject only: never put health data in this link. */
-export const SUPPORT_MAILTO = "mailto:vexzyl@pm.me?subject=Telly%20support";
+export const SUPPORT_MAILTO =
+	"mailto:vexzyl@pm.me?subject=MedPass Lens%20support";
 
 /** An info button whose text shows as a Win95 yellow tooltip on hover and keyboard focus. */
 export function Tip({

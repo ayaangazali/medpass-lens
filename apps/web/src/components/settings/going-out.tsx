@@ -25,7 +25,7 @@ export function GoingOutSettings() {
 					? undefined
 					: home.value.autoTrip
 						? `On · out when farther than ${home.value.radiusMeters} m from home`
-						: "Off: Telly does not watch for trips"
+						: "Off: MedPass Lens does not watch for trips"
 			}
 			title="Settings · Going out"
 		>
@@ -72,7 +72,7 @@ function GoingOutForm({ watch }: { watch: HomeWatch }) {
 					/>
 					Notice when this person goes out
 				</label>
-				<Tip text="Telly uses this phone's location. When the person stays farther from home than the distance below for a minute, Telly tells the people they share their location with, and again when they are back. Nothing is sent without the phone's location permission and a share." />
+				<Tip text="MedPass Lens uses this phone's location. When the person stays farther from home than the distance below for a minute, MedPass Lens tells the people they share their location with, and again when they are back. Nothing is sent without the phone's location permission and a share." />
 			</div>
 			{!watch.sharing && (
 				<p className="font-bold">
@@ -117,7 +117,7 @@ function GoingOutForm({ watch }: { watch: HomeWatch }) {
 					<Tip
 						text={
 							watch.home === null
-								? "Telly saves home from this phone's first position. Press the button to save it now."
+								? "MedPass Lens saves home from this phone's first position. Press the button to save it now."
 								: "Home is saved as a position. Only this person can see it. If it is wrong, press the button while at home."
 						}
 					/>

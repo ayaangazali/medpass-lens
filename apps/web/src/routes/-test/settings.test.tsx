@@ -10,7 +10,7 @@ const { FAMILY, json, renderRoute, screen, serve, signIn } = await import(
 );
 
 // #254: each setting is its own tab of the Settings screen.
-test("shows the phone, Text Telly, speaker, going out, saved things, report email, device, demo data, and family settings as tabs in that order", async () => {
+test("shows the phone, Text MedPass Lens, speaker, going out, saved things, report email, device, demo data, and family settings as tabs in that order", async () => {
 	signIn();
 	serve({});
 	renderRoute("/settings");
@@ -20,7 +20,7 @@ test("shows the phone, Text Telly, speaker, going out, saved things, report emai
 	).getAllByRole("link");
 	expect(tabs.map((t) => [t.textContent, t.getAttribute("href")])).toEqual([
 		["Phone numbers", "/settings"],
-		["Text Telly", "/settings/text-telly"],
+		["Text MedPass Lens", "/settings/text-telly"],
 		["Home speaker", "/settings/speaker"],
 		["Going out", "/settings/going-out"],
 		["Saved things", "/settings/things"],
@@ -31,7 +31,7 @@ test("shows the phone, Text Telly, speaker, going out, saved things, report emai
 	]);
 
 	for (const [tab, heading] of [
-		["Text Telly", "Settings · Text Telly"],
+		["Text MedPass Lens", "Settings · Text MedPass Lens"],
 		["Home speaker", "Settings · Home speaker (simulated)"],
 		["Going out", "Settings · Going out"],
 		["Saved things", "Settings · Saved things"],

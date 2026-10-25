@@ -14,8 +14,8 @@ export const tellyVCard = (number: string) =>
 	[
 		"BEGIN:VCARD",
 		"VERSION:3.0",
-		"N:;Telly;;;",
-		"FN:Telly",
+		"N:;MedPass Lens;;;",
+		"FN:MedPass Lens",
 		`TEL;TYPE=CELL:${number}`,
 		"END:VCARD",
 		"",
@@ -36,21 +36,21 @@ function TellyNumber({
 	const action = cn(buttonVariants(), "h-11 w-full");
 	return (
 		<>
-			<p>Telly's iMessage number:</p>
+			<p>MedPass Lens's iMessage number:</p>
 			<p className="win95-inset select-all bg-card p-2 text-center font-bold text-xl">
 				{shown(number)}
 			</p>
 			<p>
 				{myPhone === null
-					? "Save your phone number in Settings first, so Telly knows it is you."
-					: `Telly answers texts from your number ${shown(myPhone)}.`}
+					? "Save your phone number in Settings first, so MedPass Lens knows it is you."
+					: `MedPass Lens answers texts from your number ${shown(myPhone)}.`}
 			</p>
 			<a
 				className={cn(action, "win95-primary")}
 				data-slot="button"
 				href={`sms:${number}?&body=${encodeURIComponent("Hi Telly")}`}
 			>
-				<MessageCircle aria-hidden /> Message Telly
+				<MessageCircle aria-hidden /> Message MedPass Lens
 			</a>
 			<a
 				className={action}
@@ -88,7 +88,7 @@ export function TextTellyButton({ className }: { className?: string }) {
 				className={cn("h-11", className)}
 				onClick={() => dialog.current?.showModal()}
 			>
-				<MessageCircle aria-hidden /> Text Telly
+				<MessageCircle aria-hidden /> Text MedPass Lens
 			</Button>
 			<dialog
 				ref={dialog}
@@ -99,13 +99,13 @@ export function TextTellyButton({ className }: { className?: string }) {
 					id="text-telly-title"
 					className="win95-titlebar flex items-center gap-1.5 px-1.5 py-1 text-sm"
 				>
-					<MessageCircle aria-hidden className="size-4" /> Text Telly
+					<MessageCircle aria-hidden className="size-4" /> Text MedPass Lens
 				</h2>
 				<div className="grid gap-2 p-3 text-sm">
 					{state.kind !== "ready" ? (
-						<ApiNotice state={state} what="Telly's number" />
+						<ApiNotice state={state} what="MedPass Lens's number" />
 					) : state.value.tellyNumber === null ? (
-						<p>Texting Telly is not set up on this server.</p>
+						<p>Texting MedPass Lens is not set up on this server.</p>
 					) : (
 						<TellyNumber
 							number={state.value.tellyNumber}

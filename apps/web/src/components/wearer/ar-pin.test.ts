@@ -139,7 +139,7 @@ describe("pin it in AR", () => {
 		expect(await pinInAr("1", sighting, alone)).toMatchObject({
 			kind: "failed",
 			code: "camera-denied",
-			text: "Allow the camera for Telly in iPhone Settings, then try again.",
+			text: "Allow the camera for MedPass Lens in iPhone Settings, then try again.",
 		});
 	});
 });

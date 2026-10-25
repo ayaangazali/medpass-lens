@@ -216,7 +216,7 @@ export function LadderForm({
 				<div className="grid gap-1">
 					<span className="flex items-center gap-1">
 						<label htmlFor={`${id}-accept`}>Seconds to accept</label>
-						<Tip text="How long a contact has to accept before Telly asks the next contact." />
+						<Tip text="How long a contact has to accept before MedPass Lens asks the next contact." />
 					</span>
 					<input
 						id={`${id}-accept`}

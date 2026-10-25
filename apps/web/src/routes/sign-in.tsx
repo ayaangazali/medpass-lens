@@ -109,12 +109,12 @@ function SignIn() {
 
 	return (
 		<main className="mx-auto w-full max-w-md p-3 md:p-6">
-			<Window title="Sign in to Telly" icon={KeyRound}>
+			<Window title="Sign in to MedPass Lens" icon={KeyRound}>
 				<div className="grid gap-4 p-3 text-base">
 					<h3 className="font-bold text-xl">Sign in or create an account</h3>
 					<p>
-						Telly shows a family's care information only to the people in that
-						family.
+						MedPass Lens shows a family's care information only to the people in
+						that family.
 					</p>
 					{config === null ? (
 						<p role="status">
@@ -124,8 +124,8 @@ function SignIn() {
 					) : (
 						<>
 							<p>
-								Use your Google account. If you are new to Telly, this also
-								creates your account.
+								Use your Google account. If you are new to MedPass Lens, this
+								also creates your account.
 							</p>
 							{step.kind === "error" && (
 								<p role="alert" className="win95-inset bg-card p-2">

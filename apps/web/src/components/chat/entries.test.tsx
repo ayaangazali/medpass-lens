@@ -84,7 +84,7 @@ test("only another member's message offers Reply; yours and alerts do not", () =
 		),
 	);
 	expect(view.getByText("You")).toBeDefined();
-	expect(view.getByText("Telly alert")).toBeDefined();
+	expect(view.getByText("MedPass Lens alert")).toBeDefined();
 	expect(view.getByText("Body 2")).toBeDefined();
 	const replies = view.getAllByRole("button", { name: /^Reply to/ });
 	expect(replies.map((button) => button.getAttribute("aria-label"))).toEqual([
