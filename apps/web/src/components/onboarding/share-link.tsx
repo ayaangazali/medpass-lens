@@ -34,7 +34,7 @@ export function ShareLink({ link, title }: { link: string; title: string }) {
 			)}
 			<Button
 				type="button"
-				className={`${canShare ? "" : "win95-primary"}h-11 w-full`}
+				className={`${canShare ? "" : "win95-primary"} h-11 w-full`}
 				onClick={() => void copy()}
 			>
 				Copy
