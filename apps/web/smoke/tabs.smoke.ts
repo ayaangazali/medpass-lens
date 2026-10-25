@@ -13,7 +13,7 @@ test("a signed-out deep link leads to the sign-in screen", async ({
 	// #206: the app redirects to sign-in and keeps the requested page to return to.
 	await expect(page).toHaveURL(/\/sign-in\?redirect=%2Freports$/);
 	await expect(
-		page.getByRole("heading", { name: "Sign in to Telly" }),
+		page.getByRole("heading", { name: "Sign in to MedPass Lens" }),
 	).toBeVisible();
 	await expect(
 		page.getByRole("button", { name: "Continue with Google" }),
@@ -28,6 +28,7 @@ test("a signed-out deep link leads to the sign-in screen", async ({
 // #254: the desktop Screens tree, in menu order, for the default family view.
 const tabs = [
 	{ name: "Family", path: "/family", heading: "Family · Smoke Family" },
+	{ name: "Med pass", path: "/rounds", heading: "Med pass" },
 	{ name: "Chat", path: "/chat", heading: "Family chat · Smoke Family" },
 	{ name: "Care", path: "/care", heading: "Care needs" },
 	{ name: "Visits", path: "/appointments", heading: "Upcoming visits" },
