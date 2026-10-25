@@ -3293,11 +3293,7 @@ export const runReminderTimer = spacetimedb.reducer(
 		if (!ctx.sender.isEqual(ctx.databaseIdentity))
 			throw new SenderError("only the database runs reminder timers");
 		const occurrence = ctx.db.reminderOccurrence.id.find(timer.occurrenceId);
-		if (
-			occurrence?.nextPromptAt?.microsSinceUnixEpoch !==
-			timer.dueAt.microsSinceUnixEpoch
-		)
-			return;
+		if (occurrence === null) return;
 		const owner = ctx.db.reminder.id.find(occurrence.reminderId);
 		if (owner !== null)
 			scheduleOccurrence(
@@ -3306,6 +3302,11 @@ export const runReminderTimer = spacetimedb.reducer(
 				occurrence.minuteOfDay,
 				Math.max(toMs(occurrence.scheduledFor), toMs(ctx.timestamp)),
 			);
+		if (
+			occurrence.nextPromptAt?.microsSinceUnixEpoch !==
+			timer.dueAt.microsSinceUnixEpoch
+		)
+			return;
 		const settings = requireReminderSettings(ctx, occurrence.familyId);
 		if (occurrence.prompts >= settings.maxPrompts) {
 			recordReminderEvent(ctx, occurrence, "unresolved", {

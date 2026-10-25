@@ -14,7 +14,7 @@ export const isTimeZone = Schema.makeFilter((zone: string) => {
 });
 
 // Effect's `isBase64` regex overflows the V8 stack on strings of a few MiB; this one is linear.
-const isBase64 = Schema.makeFilter(
+export const isBase64 = Schema.makeFilter(
 	(text: string) =>
 		text.length % 4 === 0 && /^[A-Za-z0-9+/]*={0,2}$/.test(text),
 );

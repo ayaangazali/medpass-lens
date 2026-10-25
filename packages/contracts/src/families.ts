@@ -16,7 +16,8 @@ export const IdentityHex = Schema.String.check(
 
 /** An ISO 8601 UTC time, such as `2026-01-01T08:00:00.000Z`. */
 export const UtcTime = Schema.String.check(
-	Schema.isPattern(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z$/),
+	Schema.isPattern(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,9})?Z$/),
+	Schema.makeFilter((text: string) => !Number.isNaN(Date.parse(text))),
 );
 
 const Text = Schema.String.check(Schema.isTrimmed(), Schema.isNonEmpty());

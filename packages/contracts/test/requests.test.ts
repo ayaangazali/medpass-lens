@@ -91,6 +91,13 @@ test.each([
 	["care", NewCareNeed, need, { ...need, kind: "alert" }, '["kind"]'],
 	["care", NewCareNeed, need, { ...need, clientId: "bad id" }, '["clientId"]'],
 	[
+		"care",
+		NewCareNeed,
+		need,
+		{ ...need, dueAt: "2026-13-01T08:00:00Z" },
+		'["dueAt"]',
+	],
+	[
 		"cooking",
 		CookingProfile,
 		cooking,
@@ -198,6 +205,13 @@ test.each([
 		sighting,
 		{ ...sighting, place: "x".repeat(121) },
 		'["place"]',
+	],
+	[
+		"medicine-memory",
+		RememberMedicine,
+		sighting,
+		{ ...sighting, seenAt: "2026-01-01T08:60:00Z" },
+		'["seenAt"]',
 	],
 	[
 		"speaker",

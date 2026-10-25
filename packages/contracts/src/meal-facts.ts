@@ -3,6 +3,7 @@
 // estimate never says what was eaten: only an intake report sets a meal's intake. #32's meal and
 // drink check-ins record their answers as `IntakeReport` facts here.
 import { Schema } from "effect";
+import { isBase64 } from "./ask";
 import { DbId, IdentityHex, UtcTime } from "./families";
 import { MAX_VISION_IMAGE_BYTES } from "./vision";
 
@@ -65,14 +66,7 @@ export const MealEstimateRequest = Schema.Union([
 		image: Schema.Struct({
 			type: Schema.Literals(["image/jpeg", "image/png"]),
 			/** Base64 bytes; at most `MAX_MEAL_IMAGE_BYTES` once decoded. */
-			data: Schema.String.check(
-				Schema.isMinLength(1),
-				// Effect's `isBase64` regex overflows the V8 stack under Node at a few MiB; this is linear.
-				Schema.makeFilter(
-					(text: string) =>
-						text.length % 4 === 0 && /^[A-Za-z0-9+/]*={0,2}$/.test(text),
-				),
-			),
+			data: Schema.String.check(Schema.isMinLength(1), isBase64),
 		}),
 	}),
 	Schema.Struct({ source: Schema.Literal("description"), text: Text(2000) }),

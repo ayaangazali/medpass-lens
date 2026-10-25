@@ -8,8 +8,8 @@
 // the member whose things it reads or changes; without it, the caller's own. A member opens their
 // own; a member with `family_access` or `care_plan_edit` opens every member's; anyone else gets 403.
 import { Schema } from "effect";
-import { IdentityHex } from "./families";
-import { ObjectCategory, ObjectDetection, UtcTime } from "./vision";
+import { IdentityHex, UtcTime } from "./families";
+import { ObjectCategory, ObjectDetection } from "./vision";
 
 const Text = Schema.String.check(
 	Schema.isPattern(/\S/),
