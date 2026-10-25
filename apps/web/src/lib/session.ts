@@ -79,6 +79,8 @@ export const freshSessionToken = async (): Promise<string | null> => {
 		return token;
 	renewal ??= refreshSignIn(ENV.VITE_SERVER_URL, refreshToken)
 		.then((renewed) => {
+			if (storage()?.getItem(SESSION_KEYS.idToken) !== token)
+				return getSessionToken();
 			// Only the ID token changes, so the session listeners need not run.
 			if (renewed === null) setSessionToken(null);
 			else storage()?.setItem(SESSION_KEYS.idToken, renewed);

@@ -346,6 +346,20 @@ describe("session renewal (issue #222)", () => {
 		expect(getSessionToken()).toBeNull();
 	});
 
+	test("a sign-out while a renewal is in flight stays signed out", async () => {
+		setSessionToken(idToken("old", 60), "refresh-1");
+		const { promise, resolve } = Promise.withResolvers<Response>();
+		const sent = fake(() => promise);
+		const request = apiRequest(Health, "/health");
+		setSessionToken(null);
+		resolve(Response.json({ idToken: renewed }));
+		expect(await request).toEqual({ kind: "signed_out" });
+		expect(getSessionToken()).toBeNull();
+		expect(sent.map(({ url }) => new URL(url).pathname)).toEqual([
+			"/api/sign-in/refresh",
+		]);
+	});
+
 	test("when renewal fails, the session stays and the next request retries", async () => {
 		const old = idToken("old", 60);
 		setSessionToken(old, "refresh-1");
