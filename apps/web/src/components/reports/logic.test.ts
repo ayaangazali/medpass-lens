@@ -126,6 +126,14 @@ describe("formatTime", () => {
 		expect(formatTime(Date.parse(iso))).toBe(expected);
 	});
 
+	test("a date without a time is shown as that date, with no time", () => {
+		expect(formatTime("2026-09-01")).toBe(
+			new Date(2026, 8, 1).toLocaleDateString(undefined, {
+				dateStyle: "medium",
+			}),
+		);
+	});
+
 	test("a time that does not parse is shown as the source sent it", () => {
 		expect(formatTime("last Tuesday")).toBe("last Tuesday");
 	});
