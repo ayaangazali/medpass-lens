@@ -114,10 +114,7 @@ export const mealRoutes = (gemini: GeminiConfig | undefined) =>
 			requireScope(c, "health_records");
 			await next();
 		})
-		.get("/meals", (c) => {
-			requireScope(c, "health_records");
-			return c.json({ meals: readMeals(c) } satisfies Meals);
-		})
+		.get("/meals", (c) => c.json({ meals: readMeals(c) } satisfies Meals))
 		.post(
 			"/meals/:mealId/estimates",
 			bodyLimit({
