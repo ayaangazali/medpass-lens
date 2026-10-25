@@ -70,6 +70,10 @@ describe("checkLabel", () => {
 			read: label({ patientName: "Hellen Park" }),
 		});
 		expect(checkLabel(label(), dose()).verdict).toBe("match");
+		expect(
+			checkLabel(label({ drugName: "Metformin HCl ER 500 MG" }), dose())
+				.verdict,
+		).toBe("match");
 	});
 
 	test("another person's label is a mismatch that names both people", () => {

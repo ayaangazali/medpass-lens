@@ -26,6 +26,15 @@ const FORM_WORDS = new Set([
 	"dr",
 	"cr",
 	"xl",
+	"extended",
+	"delayed",
+	"release",
+	"mg",
+	"mcg",
+	"ml",
+	"g",
+	"unit",
+	"units",
 ]);
 
 const words = (text: string) =>
