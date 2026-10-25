@@ -90,8 +90,8 @@ function FollowUps({
 }) {
 	if (questions.length === 0) return null;
 	return (
-		<div className="mt-1.5 grid gap-1.5 border-[#808080] border-t border-dotted pt-1.5">
-			<p className="flex items-center gap-1 text-[#3c3c3c] text-[12px]">
+		<div className="mt-1.5 grid gap-1.5 border-border border-t border-dotted pt-1.5">
+			<p className="flex items-center gap-1 text-[12px] text-muted-foreground">
 				Suggested by the family agent
 				<Tip text={FOLLOW_UP_TIP} />
 			</p>
@@ -99,7 +99,7 @@ function FollowUps({
 				<button
 					key={question}
 					type="button"
-					className="min-h-11 justify-self-start border border-[#000080] border-dashed bg-white px-3 py-1 text-left text-[#000080] text-[14px] hover:bg-[#eef0ff] focus-visible:outline-dotted focus-visible:outline-2 focus-visible:outline-black focus-visible:outline-offset-2"
+					className="min-h-11 justify-self-start rounded-md border border-primary/40 bg-card px-3 py-1 text-left text-[14px] text-primary hover:bg-accent focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-solid focus-visible:outline-offset-2"
 					onClick={() => onPick(question)}
 				>
 					{question}
@@ -136,7 +136,7 @@ function AskItem({
 				)}
 			</Entry>
 			<Entry
-				className="win95-inset bg-[#ffffe1] p-2"
+				className="win95-inset bg-highlight p-2 text-highlight-foreground"
 				who={
 					<span className="flex flex-wrap items-center gap-x-1">
 						<Sparkles aria-hidden className="size-4" />
@@ -247,7 +247,7 @@ export function ChatLog({
 			ref={log}
 			role="log"
 			aria-label="Messages"
-			className="win95-inset flex h-[340px] flex-col-reverse overflow-y-auto bg-white p-2"
+			className="win95-inset flex h-[340px] flex-col-reverse overflow-y-auto bg-card p-2"
 		>
 			{items.length === 0 ? (
 				<p className="text-[13px]">{emptyText}</p>

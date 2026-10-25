@@ -249,11 +249,11 @@ function NameField({
 			label="Name on the label"
 			value={name}
 			onChange={setName}
-			className={`grid gap-1 ${seeded ? "border-[#006400] border-l-4 pl-1.5" : ""}`}
+			className={`grid gap-1 ${seeded ? "border-primary border-l-4 pl-1.5" : ""}`}
 		>
 			{seeded && <Source>Gemini photo check</Source>}
 			{seeded && read?.needsVerification && (
-				<b className="justify-self-start border border-black bg-[#ffffe1] px-1.5 text-xs">
+				<b className="justify-self-start rounded-sm bg-highlight px-1.5 text-highlight-foreground text-xs">
 					Check this name
 				</b>
 			)}

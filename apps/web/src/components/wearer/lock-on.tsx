@@ -341,7 +341,7 @@ export function LockOn({
 					</p>
 				</div>
 			)}
-			<span className="win95-raised absolute top-2 left-2 bg-[#ffffe1] px-2 py-1 text-[15px] text-black">
+			<span className="win95-raised absolute top-2 left-2 bg-highlight px-2 py-1 text-[15px] text-highlight-foreground">
 				{tag}
 			</span>
 			{orientation.ask && (

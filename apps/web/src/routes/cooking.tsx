@@ -18,7 +18,7 @@ export const Route = createFileRoute("/cooking")({
 });
 
 const field =
-	"win95-inset win95-field min-w-0 bg-white px-3 py-2 text-[18px] text-black";
+	"win95-inset win95-field min-w-0 bg-card px-3 py-2 text-[18px] text-card-foreground";
 const big = "h-14 text-[18px] [&_svg]:size-5";
 
 /** "eggs, bread\nmilk" → ["eggs", "bread", "milk"]. */
@@ -58,7 +58,7 @@ function Suggestions({
 					<ul className="grid gap-1 text-[18px]">
 						{result.instructions.map((i) => (
 							<li
-								className="win95-inset bg-white p-2 text-black"
+								className="win95-inset bg-card p-2 text-card-foreground"
 								key={i.instruction}
 							>
 								<b>{i.name}:</b> “{i.instruction}”

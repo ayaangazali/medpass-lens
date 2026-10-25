@@ -51,11 +51,11 @@ export function WhoopStatus({ records }: { records: ApiState<FamilyRecords> }) {
 	const age = liveAge(heart.sourceTime, now);
 	return (
 		<span className="flex flex-wrap items-center gap-1.5">
-			<b className={age.tone === "old" ? "text-[#404040]" : undefined}>
+			<b className={age.tone === "old" ? "text-muted-foreground" : undefined}>
 				{heart.value} {heart.unit}
 			</b>
 			<span
-				className={`border border-black px-1.5 font-bold text-xs ${age.tone === "current" ? "bg-[#d6f5d6]" : "bg-[#ffffe1]"}`}
+				className={`rounded-sm px-1.5 font-bold text-xs ${age.tone === "current" ? "bg-accent text-accent-foreground" : "bg-highlight text-highlight-foreground"}`}
 			>
 				{age.text}
 			</span>

@@ -96,7 +96,7 @@ export function Thresholds({
 							className={cn(
 								row?.state === "out_of_range" && "font-bold text-destructive",
 								(row === undefined || row.state === "unavailable") &&
-									"bg-[#ffffe1] px-1",
+									"bg-highlight px-1 text-highlight-foreground",
 							)}
 						>
 							{row === undefined

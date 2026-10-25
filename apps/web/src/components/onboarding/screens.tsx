@@ -15,7 +15,7 @@ import { failureText, inviteCode } from "./logic";
 export type Mode = "seeded" | "hand";
 
 const field = "win95-inset win95-field h-11 w-full bg-card px-2";
-const seededClass = "border-l-4 border-[#006400] pl-1.5";
+const seededClass = "border-l-4 border-primary pl-1.5";
 
 /** The small "source: …" line under a seeded value. */
 export function Source({ children }: { children: string }) {

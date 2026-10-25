@@ -103,11 +103,11 @@ function Listening({
 			aria-live="polite"
 			className="grid justify-items-center gap-3 py-4 text-center"
 		>
-			<span className="win95-inset grid size-20 place-items-center bg-white">
+			<span className="win95-inset grid size-20 place-items-center bg-card">
 				{thinking ? (
 					<Loader2 aria-hidden className="size-10 animate-spin" />
 				) : (
-					<Mic aria-hidden className="size-10 text-[#000080]" />
+					<Mic aria-hidden className="size-10 text-primary" />
 				)}
 			</span>
 			<p className="font-semibold text-[22px]">
@@ -169,7 +169,7 @@ function AskForm({
 					Type a question
 				</label>
 				<input
-					className="win95-inset win95-field h-14 min-w-0 flex-1 bg-white px-3 text-[18px] text-black"
+					className="win95-inset win95-field h-14 min-w-0 flex-1 bg-card px-3 text-[18px] text-card-foreground"
 					id="wearer-request"
 					maxLength={2000}
 					onChange={(event) => setTyped(event.target.value)}

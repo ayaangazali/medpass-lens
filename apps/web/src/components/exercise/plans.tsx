@@ -16,7 +16,8 @@ import { apiRequest, familyPath, useApi } from "@/lib/api";
 import { demandText, outcomeText, reasonText } from "./logic";
 
 const demands = ExerciseDemand.literals;
-const field = "win95-inset win95-field h-10 min-w-0 bg-white px-2 text-black";
+const field =
+	"win95-inset win95-field h-10 min-w-0 bg-card px-2 text-card-foreground";
 
 function DemandBoxes({
 	legend,
@@ -115,7 +116,7 @@ function PlanForm({
 			<label className="grid gap-1">
 				Steps, one per line, exactly as written in the source
 				<textarea
-					className="win95-inset win95-field min-h-24 bg-white p-2 text-black"
+					className="win95-inset win95-field min-h-24 bg-card p-2 text-card-foreground"
 					onChange={(e) => setSteps(e.target.value)}
 					required
 					value={steps}

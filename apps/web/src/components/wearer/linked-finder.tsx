@@ -203,8 +203,9 @@ function Places({
 						{sightings.map((sighting) => (
 							<li
 								className={cn(
-									"grid gap-0.5 border-b border-b-[var(--win95-shadow)] px-3 py-2 last:border-b-0",
-									sighting.id === object && "bg-[#ffffe1]",
+									"grid gap-0.5 border-b border-b-border px-3 py-2 last:border-b-0",
+									sighting.id === object &&
+										"bg-highlight text-highlight-foreground",
 								)}
 								key={sighting.id}
 							>

@@ -159,10 +159,10 @@ function DemoPane({ familyId }: { familyId: string }) {
 }
 
 const dot: Record<Pane["state"], string> = {
-	ok: "bg-[#008000]",
-	warn: "bg-[#c0a000]",
+	ok: "bg-primary",
+	warn: "bg-amber-500",
 	bad: "bg-destructive",
-	unknown: "bg-[#808080]",
+	unknown: "bg-muted-foreground",
 };
 
 /** One sunken pane. On a phone the words are for screen readers only; tap or focus shows the tip. */
@@ -188,7 +188,7 @@ function StatusPane({
 			<Icon aria-hidden className="size-4 shrink-0" />
 			<span
 				aria-hidden
-				className={cn("size-2.5 shrink-0 border border-black", dot[pane.state])}
+				className={cn("size-2.5 shrink-0 rounded-full", dot[pane.state])}
 			/>
 			<span className="max-[899px]:sr-only">{pane.text}</span>
 		</Hint>
@@ -208,7 +208,7 @@ export function StatusBar({ familyId }: { familyId: string | null }) {
 	const health = usePolled(Health, "/health");
 	const sources = usePolled(Sources, "/api/sources");
 	return (
-		<footer className="flex shrink-0 flex-wrap gap-1 max-[899px]:justify-around">
+		<footer className="flex shrink-0 flex-wrap gap-1 border-t bg-card px-2 py-1 max-[899px]:justify-around">
 			<StatusPane icon={Smartphone} pane={phoneLine(online, battery)} />
 			<StatusPane
 				icon={Watch}

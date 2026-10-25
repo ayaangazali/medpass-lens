@@ -4,7 +4,7 @@ import { type Attached, formatSize } from "./logic";
 
 /** The 44 px × button that removes a file or cancels a reply. */
 export const X_BUTTON =
-	"grid size-11 shrink-0 place-items-center focus-visible:outline-dotted focus-visible:outline-2 focus-visible:outline-black focus-visible:-outline-offset-[6px]";
+	"grid size-11 shrink-0 place-items-center focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-ring focus-visible:-outline-offset-[6px]";
 
 /**
  * One fixed 52 px row of attached files; hidden when empty, scrolls sideways when full. A file that

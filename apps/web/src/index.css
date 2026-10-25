@@ -1,99 +1,100 @@
 @import "@health/ui/globals.css";
 
-/*
- * Windows 95 theme for the web app. Original styles that follow the visual direction of
- * github.com/undeemed/windows-95-web-designer; no source or assets are copied.
- * Win95 has one look, so light and dark share it. Text stays at a readable size and every
- * text color pair keeps WCAG AA contrast (muted text uses #404040, not the #808080 shadow).
- */
-:root,
-.dark {
-	--win95-desktop: #008080;
-	--win95-face: #c0c0c0;
-	--win95-light: #dfdfdf;
-	--win95-highlight: #ffffff;
-	--win95-shadow: #808080;
-	--win95-dark-shadow: #000000;
-	--win95-title: #000080;
-	--win95-title-end: #1084d0;
-	--win95-top-band: 10px;
-
-	--background: var(--win95-face);
-	--foreground: #000000;
+:root {
+	--background: #f6f7f9;
+	--foreground: #0f172a;
 	--card: #ffffff;
-	--card-foreground: #000000;
-	--popover: var(--win95-face);
-	--popover-foreground: #000000;
-	--primary: var(--win95-title);
+	--card-foreground: #0f172a;
+	--popover: #ffffff;
+	--popover-foreground: #0f172a;
+	--primary: #15803d;
 	--primary-foreground: #ffffff;
-	--secondary: var(--win95-face);
-	--secondary-foreground: #000000;
-	--muted: var(--win95-face);
-	--muted-foreground: #404040;
-	--accent: var(--win95-title);
-	--accent-foreground: #ffffff;
-	--destructive: #800000;
-	--border: var(--win95-shadow);
-	--input: var(--win95-shadow);
-	--ring: #000000;
-	--radius: 0;
+	--secondary: #f1f5f9;
+	--secondary-foreground: #0f172a;
+	--muted: #f1f5f9;
+	--muted-foreground: #475569;
+	--accent: #e8f5ec;
+	--accent-foreground: #14532d;
+	--destructive: #b91c1c;
+	--border: #e2e8f0;
+	--input: #cbd5e1;
+	--ring: #15803d;
+	--radius: 0.625rem;
+	--highlight: #fef3c7;
+	--highlight-foreground: #451a03;
+	--shadow-pop: 0 12px 32px -12px rgb(15 23 42 / 0.25);
+}
+
+.dark {
+	--background: #0f1419;
+	--foreground: #e6edf3;
+	--card: #161b22;
+	--card-foreground: #e6edf3;
+	--popover: #1c232c;
+	--popover-foreground: #e6edf3;
+	--primary: #3fb950;
+	--primary-foreground: #04260f;
+	--secondary: #21262d;
+	--secondary-foreground: #e6edf3;
+	--muted: #21262d;
+	--muted-foreground: #9aa4af;
+	--accent: #12301c;
+	--accent-foreground: #c6f6d5;
+	--destructive: #f87171;
+	--border: #2a313a;
+	--input: #3d4550;
+	--ring: #3fb950;
+	--highlight: #3d2f0a;
+	--highlight-foreground: #fde68a;
+	--shadow-pop: 0 12px 32px -12px rgb(0 0 0 / 0.6);
 }
 
 @theme inline {
-	--font-sans: Tahoma, "Segoe UI", Arial, sans-serif;
+	--font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+	--color-highlight: var(--highlight);
+	--color-highlight-foreground: var(--highlight-foreground);
 }
 
-/* Unlayered, so every shadcn button variant gets the raised Win95 face over its utilities. */
-[data-slot="button"] {
-	background-color: var(--win95-face);
-	color: #000000;
-	/* The bevel draws the edge; the variants' transparent 1px border would show a gap around it. */
-	border: 0;
-	min-height: 2.75rem;
-	/* Win95 chrome switches state instantly; an animated bevel reads as a broken edge. */
-	transition: none;
-	box-shadow:
-		inset -2px -2px 0 var(--win95-dark-shadow),
-		inset 2px 2px 0 var(--win95-highlight),
-		inset -4px -4px 0 var(--win95-shadow),
-		inset 4px 4px 0 var(--win95-light);
+html,
+body {
+	background-color: var(--background);
 }
-[data-slot="button"]:active:not(:disabled) {
-	box-shadow:
-		inset 2px 2px 0 var(--win95-dark-shadow),
-		inset -2px -2px 0 var(--win95-highlight),
-		inset 4px 4px 0 var(--win95-shadow),
-		inset -4px -4px 0 var(--win95-light);
+
+[data-slot="button"] {
+	min-height: 2.75rem;
+	border: 1px solid var(--input);
+	border-radius: calc(var(--radius) - 2px);
+	background-color: var(--card);
+	color: var(--foreground);
+	font-size: 0.875rem;
+	font-weight: 500;
+	transition: background-color 120ms ease;
+}
+[data-slot="button"]:hover:not(:disabled) {
+	background-color: var(--muted);
 }
 [data-slot="button"]:focus-visible {
-	outline: 2px dotted currentColor;
-	outline-offset: -7px;
+	outline: 2px solid var(--ring);
+	outline-offset: 2px;
 }
 [data-slot="button"]:disabled {
-	opacity: 1;
-	color: var(--win95-shadow);
-	text-shadow: 1px 1px 0 var(--win95-highlight);
+	opacity: 0.5;
 }
-/* The one primary action of a state: a navy face, bold white text, and a black default ring. */
-[data-slot="button"].win95-primary:not(:disabled) {
-	background-color: var(--win95-title);
-	color: #ffffff;
-	font-weight: 700;
-	outline: 2px solid var(--win95-dark-shadow);
+[data-slot="button"].win95-primary {
+	border-color: transparent;
+	background-color: var(--primary);
+	color: var(--primary-foreground);
+	font-weight: 600;
 }
-[data-slot="button"].win95-primary:focus-visible {
-	outline: 2px dotted #ffffff;
-	outline-offset: -7px;
+[data-slot="button"].win95-primary:hover:not(:disabled) {
+	background-color: color-mix(in oklab, var(--primary), var(--foreground) 12%);
 }
 
-/* Etched separator: a shadow line over a highlight line, never a flat one-pixel border. */
 hr {
 	border: 0;
-	border-top: 1px solid var(--win95-shadow);
-	border-bottom: 1px solid var(--win95-highlight);
+	border-top: 1px solid var(--border);
 }
 
-/* Tooltip hint for secondary text: an info button with a yellow Win95 tip on hover and focus. */
 .win95-tip {
 	position: relative;
 	display: inline-grid;
@@ -101,11 +102,12 @@ hr {
 	width: 2rem;
 	height: 2rem;
 	flex: none;
-	color: var(--win95-title);
+	border-radius: 999px;
+	color: var(--muted-foreground);
 	cursor: help;
 }
-.win95-tip:focus-visible {
-	outline: 2px dotted #000000;
+.win95-tip:hover {
+	color: var(--foreground);
 }
 .win95-tip::after,
 .win95-hint-body {
@@ -118,10 +120,10 @@ hr {
 	width: max-content;
 	max-width: 16rem;
 	padding: 0.4rem 0.6rem;
-	background: #ffffe1;
-	color: #000000;
-	border: 1px solid #000000;
-	box-shadow: 2px 2px 0 var(--win95-shadow);
+	border-radius: calc(var(--radius) - 4px);
+	background: var(--foreground);
+	color: var(--background);
+	box-shadow: var(--shadow-pop);
 	font-size: 0.8125rem;
 	font-weight: 400;
 	line-height: 1.4;
@@ -139,15 +141,10 @@ hr {
 .win95-tip:focus-visible::after {
 	display: block;
 }
-/* Text with a hint (`Hint`): the yellow tip sits under the text, opened by hover, tap, or focus. */
 .win95-hint {
 	position: relative;
 	text-align: inherit;
 	cursor: help;
-}
-.win95-hint:focus-visible {
-	outline: 2px dotted #000000;
-	outline-offset: 1px;
 }
 .win95-hint-body {
 	top: calc(100% + 4px);
@@ -167,150 +164,96 @@ hr {
 .win95-hint:focus > .win95-hint-body {
 	display: block;
 }
-/* A small raised button in a window title bar, such as Back. Utilities set its display. */
-.win95-title-button {
-	height: 1.375rem;
-	padding: 0 0.5rem;
-	background-color: var(--win95-face);
-	color: #000000;
-	font-size: 0.75rem;
-	font-weight: 400;
-	box-shadow:
-		inset -1px -1px 0 var(--win95-dark-shadow),
-		inset 1px 1px 0 var(--win95-highlight),
-		inset -2px -2px 0 var(--win95-shadow),
-		inset 2px 2px 0 var(--win95-light);
+
+.win95-tip:focus-visible,
+.win95-hint:focus-visible,
+.win95-title-button:focus-visible,
+.win95-field:focus-visible,
+.win95-tab:focus-visible,
+.win95-close:focus-visible,
+.win95-menu-item:focus-visible,
+.win95-sheet-tab:focus-visible {
+	outline: 2px solid var(--ring);
+	outline-offset: 2px;
 }
-.win95-title-button:focus-visible {
-	outline: 1px dotted #000000;
-	outline-offset: -4px;
-}
-/* Text fields and selects sit in a sunken well; the focus ring stays visible on the white face. */
-.win95-field:focus-visible {
-	outline: 2px dotted #000000;
-	outline-offset: -5px;
+.win95-field:focus-visible,
+.win95-menu-item:focus-visible,
+.win95-sheet-tab:focus-visible {
+	outline-offset: -2px;
 }
 
-/* Win95 check box: a sunken white well with a black check mark. */
+.win95-title-button {
+	min-height: 2.25rem;
+	padding: 0 0.75rem;
+	border: 1px solid var(--input);
+	border-radius: calc(var(--radius) - 2px);
+	background-color: var(--card);
+	color: var(--foreground);
+	font-size: 0.875rem;
+	font-weight: 500;
+}
+.win95-title-button:hover,
+.win95-close:hover,
+.win95-tab:hover,
+.win95-menu-item:hover {
+	background-color: var(--muted);
+}
+
 input[type="checkbox"] {
-	appearance: none;
-	display: inline-grid;
-	place-content: center;
 	width: 1.25rem;
 	height: 1.25rem;
 	flex: none;
-	background-color: #ffffff;
-	box-shadow:
-		inset 2px 2px 0 var(--win95-shadow),
-		inset -2px -2px 0 var(--win95-highlight),
-		inset 4px 4px 0 var(--win95-dark-shadow),
-		inset -4px -4px 0 var(--win95-light);
-}
-input[type="checkbox"]:checked::before {
-	content: "";
-	width: 0.7rem;
-	height: 0.4rem;
-	border-bottom: 3px solid #000000;
-	border-left: 3px solid #000000;
-	transform: translateY(-2px) rotate(-45deg);
-}
-input[type="checkbox"]:disabled {
-	background-color: var(--win95-face);
-}
-input[type="checkbox"]:focus-visible {
-	outline: 2px dotted #000000;
-	outline-offset: 2px;
+	accent-color: var(--primary);
 }
 
-/* Taskbar and toolbar buttons. The current screen shows pressed in, with bold text. */
 .win95-tab {
 	display: inline-flex;
 	flex: none;
 	align-items: center;
 	min-height: 2.75rem;
 	padding: 0 0.9rem;
-	background-color: var(--win95-face);
-	color: #000000;
+	border-radius: calc(var(--radius) - 2px);
+	color: var(--muted-foreground);
 	font-size: 0.9375rem;
 	white-space: nowrap;
-	box-shadow:
-		inset -2px -2px 0 var(--win95-dark-shadow),
-		inset 2px 2px 0 var(--win95-highlight),
-		inset -4px -4px 0 var(--win95-shadow),
-		inset 4px 4px 0 var(--win95-light);
 }
 .win95-tab[aria-current="page"] {
-	background-color: var(--win95-light);
-	font-weight: 700;
-	box-shadow:
-		inset 2px 2px 0 var(--win95-dark-shadow),
-		inset -2px -2px 0 var(--win95-highlight),
-		inset 4px 4px 0 var(--win95-shadow),
-		inset -4px -4px 0 var(--win95-light);
-}
-.win95-tab:focus-visible {
-	outline: 2px dotted #000000;
-	outline-offset: -7px;
+	background-color: var(--accent);
+	color: var(--accent-foreground);
+	font-weight: 600;
 }
 .win95-tab:disabled {
-	color: var(--win95-shadow);
-	text-shadow: 1px 1px 0 var(--win95-highlight);
+	opacity: 0.5;
 }
 
-/*
- * The page behind the app window: teal, so an overscroll is never gray. A solid teal band above
- * the window is the first painted row, because browsers such as Dia tint their toolbar from the
- * top edge of the page, not from theme-color.
- */
-html,
-body {
-	background-color: var(--win95-desktop);
-}
-#app {
-	padding-top: var(--win95-top-band);
-}
-
-/* Close button in a phone title bar: a raised face at touch size. Layout utilities place it. */
 .win95-close {
 	width: 2.75rem;
 	height: 2.75rem;
-	background-color: var(--win95-face);
-	color: #000000;
-	box-shadow:
-		inset -2px -2px 0 var(--win95-dark-shadow),
-		inset 2px 2px 0 var(--win95-highlight),
-		inset -4px -4px 0 var(--win95-shadow),
-		inset 4px 4px 0 var(--win95-light);
-}
-.win95-close:focus-visible {
-	outline: 2px dotted #000000;
-	outline-offset: -7px;
+	border-radius: calc(var(--radius) - 2px);
+	color: var(--foreground);
 }
 
-/* One row of the screen tree and the Start menu. The current screen is navy, like a selection. */
 .win95-menu-item {
 	display: flex;
 	align-items: center;
 	gap: 0.75rem;
 	min-height: 2.75rem;
 	padding: 0 0.75rem;
-	color: #000000;
+	border-radius: calc(var(--radius) - 2px);
+	color: var(--foreground);
 	font-size: 0.9375rem;
 	text-align: left;
 }
-.win95-menu-item:hover,
 .win95-menu-item[aria-current="page"] {
-	background-color: var(--win95-title);
-	color: #ffffff;
-}
-.win95-menu-item:focus-visible {
-	outline: 2px dotted currentColor;
-	outline-offset: -3px;
+	background-color: var(--accent);
+	color: var(--accent-foreground);
+	font-weight: 600;
 }
 .win95-menu-head {
-	padding: 0.5rem 0.75rem 0.125rem;
+	padding: 0.75rem 0.75rem 0.25rem;
 	color: var(--muted-foreground);
 	font-size: 0.75rem;
+	font-weight: 600;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
 }
@@ -319,43 +262,35 @@ body {
 	font-size: 1.125rem;
 }
 
-/* Property-sheet tabs for a screen's pages. The current tab is raised and joins the page. */
 .win95-sheet-tab {
+	display: inline-flex;
 	flex: none;
+	align-items: center;
 	min-height: 2.75rem;
-	margin-top: 3px;
-	padding: 0.6rem 0.9rem 0.4rem;
-	background-color: var(--win95-face);
-	color: #000000;
+	padding: 0 0.9rem;
+	border-bottom: 2px solid transparent;
+	color: var(--muted-foreground);
 	font-size: 0.9375rem;
 	white-space: nowrap;
-	box-shadow:
-		inset 2px 2px 0 var(--win95-highlight),
-		inset -2px 0 0 var(--win95-dark-shadow),
-		inset -3px 0 0 var(--win95-shadow);
+}
+.win95-sheet-tab:hover {
+	color: var(--foreground);
 }
 .win95-sheet-tab[aria-current="page"],
 .win95-sheet-tab[aria-selected="true"] {
-	margin-top: 0;
-	padding-bottom: 0.6rem;
-	font-weight: 700;
-}
-.win95-sheet-tab:focus-visible {
-	outline: 2px dotted #000000;
-	outline-offset: -6px;
+	border-bottom-color: var(--primary);
+	color: var(--foreground);
+	font-weight: 600;
 }
 
-/* Status bar fields: a shallow one-pixel well. */
 .win95-status {
-	box-shadow:
-		inset 1px 1px 0 var(--win95-shadow),
-		inset -1px -1px 0 var(--win95-highlight);
+	border-radius: calc(var(--radius) - 4px);
 }
 
-/* Phone taskbar: Start and 3 pinned screens, icon over label. The wearer view is taller. */
 .win95-taskbar {
-	padding-top: 2px;
-	box-shadow: inset 0 1px 0 var(--win95-light);
+	padding: 0.25rem;
+	border-top: 1px solid var(--border);
+	background-color: var(--card);
 }
 .win95-taskbar-button {
 	flex-direction: column;
@@ -369,23 +304,10 @@ body {
 	min-height: 4.5rem;
 	font-size: 1rem;
 }
-.win95-logo {
-	display: inline-grid;
-	place-items: center;
-	width: 1.5rem;
-	height: 1.5rem;
-	background-color: var(--win95-title);
-	color: #ffffff;
-	font-weight: 700;
-	box-shadow:
-		inset -1px -1px 0 #000000,
-		inset 1px 1px 0 var(--win95-title-end);
-}
 
-/* Start menu: opens above the phone taskbar, with the navy side band of the Win95 Start menu. */
 .win95-start-menu {
 	position: fixed;
-	inset: auto 0.25rem 5rem;
+	inset: auto 0.5rem 5rem;
 	max-height: calc(100svh - 7rem);
 	margin: 0;
 	border: 0;
@@ -397,58 +319,46 @@ body {
 [data-view="wearer"] .win95-start-menu {
 	bottom: 5.5rem;
 }
-.win95-start-band {
-	flex: none;
-	padding: 0.5rem 0.25rem;
-	background: linear-gradient(0deg, var(--win95-title), var(--win95-title-end));
-	color: #ffffff;
-	font-size: 1.25rem;
-	font-weight: 700;
-	transform: rotate(180deg);
-	writing-mode: vertical-rl;
-}
 
 @layer components {
-	/* Raised 3D chrome for window frames: two-pixel bevels, light top-left, dark bottom-right. */
 	.win95-raised {
-		background-color: var(--win95-face);
-		box-shadow:
-			inset -2px -2px 0 var(--win95-dark-shadow),
-			inset 2px 2px 0 var(--win95-light),
-			inset -4px -4px 0 var(--win95-shadow),
-			inset 4px 4px 0 var(--win95-highlight),
-			3px 3px 0 var(--win95-dark-shadow);
+		border-radius: var(--radius);
+		background-color: var(--card);
+		color: var(--card-foreground);
+		box-shadow: inset 0 0 0 1px var(--border);
 	}
-	/* Sunken wells: inputs, lists, queues, and the camera viewport. */
+	dialog.win95-raised,
+	[popover].win95-raised {
+		background-color: var(--popover);
+		color: var(--popover-foreground);
+		box-shadow:
+			inset 0 0 0 1px var(--border),
+			var(--shadow-pop);
+	}
 	.win95-inset {
-		box-shadow:
-			inset 2px 2px 0 var(--win95-shadow),
-			inset -2px -2px 0 var(--win95-highlight),
-			inset 4px 4px 0 var(--win95-dark-shadow),
-			inset -4px -4px 0 var(--win95-light);
+		border-radius: calc(var(--radius) - 2px);
+		box-shadow: inset 0 0 0 1px var(--border);
 	}
-	.win95-window {
-		padding: 6px;
+	.win95-field.win95-inset {
+		box-shadow: inset 0 0 0 1px var(--input);
 	}
-	.win95-titlebar {
-		background: linear-gradient(
-			90deg,
-			var(--win95-title) 0%,
-			var(--win95-title-end) 100%
-		);
-		color: #ffffff;
-		font-weight: 700;
-	}
-	/* The screen area inside the app frame: the face of the one window (captain: no nested windows). */
 	.win95-desktop {
-		background-color: var(--win95-face);
+		background-color: var(--background);
 	}
 }
 
-/*
- * Each screen fills the desktop area with one even 8 px gap, and its last window stretches to the
- * bottom. Unlayered, so it wins over each screen's own padding and height.
- */
+.win95-window {
+	padding: 0.75rem;
+}
+.win95-titlebar {
+	margin-bottom: 0.5rem;
+	padding: 0.25rem 0.25rem 0.75rem;
+	border-bottom: 1px solid var(--border);
+	color: var(--foreground);
+	font-size: 1rem;
+	font-weight: 600;
+}
+
 .win95-desktop {
 	-webkit-overflow-scrolling: touch;
 }
@@ -457,14 +367,8 @@ body {
 	flex-direction: column;
 	gap: 0.5rem;
 	height: 100%;
-	padding: 0.5rem;
+	padding: 0.75rem;
 }
-/*
- * On a phone a screen taller than the area makes the area scroll: nothing is squeezed into a small
- * inner box that seems clipped (captain: "i cannot see today at a glance ... it just doesnt scroll
- * down on mobile"; "i cant scroll down here" on wearer Home). A desktop has room for each list's
- * own scroll box.
- */
 @media (max-width: 899px) {
 	.win95-desktop > main {
 		height: auto;
@@ -475,22 +379,15 @@ body {
 	flex-grow: 1;
 }
 
-/*
- * One window per page (captain: "nested windows + elements are all over the place"). Inside the app
- * frame a screen's `Window` is a plain area: no bevel and no title bar. Its title is for screen
- * readers only, because the frame's title bar already names the screen; a part of a screen with
- * siblings (`group`) keeps it as a bold heading. Outside the frame (sign-in, join, welcome) and in
- * dialogs, a `Window` keeps its full chrome.
- */
 .win95-desktop .win95-window:not(dialog) {
 	padding: 0;
 	background: none;
 	box-shadow: none;
 }
 .win95-desktop .win95-window:not(dialog) > .win95-titlebar {
+	margin: 0;
 	padding: 0 0.25rem;
-	background: none;
-	color: inherit;
+	border-bottom: 0;
 }
 .win95-desktop .win95-window:not(dialog, [data-group]) > .win95-titlebar {
 	position: absolute;

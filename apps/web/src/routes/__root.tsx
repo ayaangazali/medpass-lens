@@ -94,12 +94,12 @@ function RootComponent() {
 			<HeadContent />
 			<ThemeProvider
 				attribute="class"
-				defaultTheme="dark"
+				defaultTheme="system"
 				disableTransitionOnChange
 				storageKey="vite-ui-theme"
 			>
 				{signingIn || finderLink ? (
-					<div className="win95-desktop h-[calc(100svh-var(--win95-top-band))] overflow-y-auto">
+					<div className="win95-desktop h-svh overflow-y-auto">
 						<Outlet />
 					</div>
 				) : (

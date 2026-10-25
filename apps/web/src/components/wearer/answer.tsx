@@ -113,7 +113,7 @@ export function AnswerPanel({
 	return (
 		<div aria-live="polite" className="grid gap-3">
 			<Asked asked={reply.asked} languageCode={reply.languageCode} />
-			<div className="win95-inset grid gap-3 bg-white p-4 text-black">
+			<div className="win95-inset grid gap-3 bg-card p-4 text-card-foreground">
 				<p
 					className="whitespace-pre-wrap break-words text-[24px] leading-snug"
 					lang={reply.languageCode ?? undefined}

@@ -81,7 +81,7 @@ function FindThingsComponent() {
 const FRAME = {
 	normal:
 		"grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] gap-2 p-1 md:grid-cols-[minmax(0,2.2fr)_minmax(0,1fr)] md:grid-rows-[auto_minmax(0,1fr)] md:gap-x-6 md:p-3",
-	full: "fixed inset-0 z-[1000] grid grid-rows-[minmax(0,1fr)_auto] gap-2 bg-[#c0c0c0] pt-[max(0.5rem,env(safe-area-inset-top))] pr-[max(0.5rem,env(safe-area-inset-right))] pb-[max(0.5rem,env(safe-area-inset-bottom))] pl-[max(0.5rem,env(safe-area-inset-left))] md:grid-cols-[minmax(0,2.2fr)_minmax(0,1fr)] md:grid-rows-[minmax(0,1fr)] md:gap-x-6 [&>:first-child]:hidden",
+	full: "fixed inset-0 z-[1000] grid grid-rows-[minmax(0,1fr)_auto] gap-2 bg-background pt-[max(0.5rem,env(safe-area-inset-top))] pr-[max(0.5rem,env(safe-area-inset-right))] pb-[max(0.5rem,env(safe-area-inset-bottom))] pl-[max(0.5rem,env(safe-area-inset-left))] md:grid-cols-[minmax(0,2.2fr)_minmax(0,1fr)] md:grid-rows-[minmax(0,1fr)] md:gap-x-6 [&>:first-child]:hidden",
 };
 
 function FindThingsPage({

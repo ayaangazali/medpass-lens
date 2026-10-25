@@ -92,7 +92,7 @@ function Editor({
 				<label className="flex items-center justify-between gap-2" key={task}>
 					<span>{tasks[task]}</span>
 					<select
-						className="win95-inset win95-field h-10 bg-white px-2 text-black"
+						className="win95-inset win95-field h-10 bg-card px-2 text-card-foreground"
 						onChange={(event) =>
 							setProfile({
 								...profile,
@@ -115,7 +115,7 @@ function Editor({
 			<label className="grid gap-1">
 				<span>Foods they dislike (comma separated)</span>
 				<input
-					className="win95-inset win95-field h-10 bg-white px-2 text-black"
+					className="win95-inset win95-field h-10 bg-card px-2 text-card-foreground"
 					onChange={(event) => setDislikes(event.target.value)}
 					value={dislikes}
 				/>

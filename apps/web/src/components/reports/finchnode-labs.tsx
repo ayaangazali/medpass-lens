@@ -169,7 +169,7 @@ function SubjectLabs({ subject }: { subject: FinchnodeSubjectLabs }) {
 			<legend className="px-1">
 				FinchNode lab results
 				{subject.synthetic && (
-					<b className="ml-2 bg-[#ffffe1] px-1 text-black">
+					<b className="ml-2 bg-highlight px-1 text-highlight-foreground">
 						FinchNode demo data
 					</b>
 				)}

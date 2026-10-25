@@ -199,7 +199,7 @@ export function Composer({
 
 	return (
 		<form
-			className="win95-inset grid gap-1 bg-white p-1.5"
+			className="win95-inset grid gap-1 bg-card p-1.5"
 			onSubmit={(event) => {
 				event.preventDefault();
 				void submit();
@@ -245,7 +245,7 @@ export function Composer({
 					const value = event.currentTarget.value;
 					setDraft(() => value);
 				}}
-				className="h-[78px] w-full resize-none overflow-y-auto border-0 bg-transparent px-2 py-1.5 text-[15px] leading-[1.4] focus-visible:outline-dotted focus-visible:outline-2 focus-visible:outline-black focus-visible:-outline-offset-2"
+				className="h-[78px] w-full resize-none overflow-y-auto border-0 bg-transparent px-2 py-1.5 text-[15px] leading-[1.4] focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-solid focus-visible:-outline-offset-2"
 			/>
 			{status !== null && (
 				<p role="status" className="win95-inset px-2 py-1 text-[13px]">

@@ -180,7 +180,7 @@ export function CookingSession({
 			</p>
 			<p
 				aria-live="polite"
-				className="win95-inset bg-white p-3 text-[24px] text-black leading-snug"
+				className="win95-inset bg-card p-3 text-[24px] text-card-foreground leading-snug"
 			>
 				{step.text}
 			</p>

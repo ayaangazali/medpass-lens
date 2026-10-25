@@ -14,7 +14,7 @@ import { Tip } from "@/components/win95";
 import { type EstimateState, type ReportState, transcribe } from "./use-meal";
 
 const field =
-	"win95-inset win95-field h-12 min-w-0 bg-white px-3 text-[18px] text-black";
+	"win95-inset win95-field h-12 min-w-0 bg-card px-3 text-[18px] text-card-foreground";
 const big = "h-14 text-[18px] [&_svg]:size-5";
 
 /** Records speech and hands over its words. Shows its own listening and failure states. */

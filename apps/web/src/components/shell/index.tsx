@@ -5,7 +5,14 @@
 // same status bar.
 import { Button } from "@health/ui/components/button";
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
-import { ArrowLeft, LogOut, Monitor, Users, X } from "lucide-react";
+import {
+	ArrowLeft,
+	LogOut,
+	Menu as MenuIcon,
+	Monitor,
+	Users,
+	X,
+} from "lucide-react";
 import { type RefObject, useRef } from "react";
 
 import { StatusBar } from "@/components/hud/status-footer";
@@ -32,7 +39,7 @@ export function Shell() {
 	const startMenu = useRef<HTMLDivElement>(null);
 	const signOut = useRef<HTMLDialogElement>(null);
 	const Icon = screen?.icon ?? Monitor;
-	const title = screen?.label ?? "Telly";
+	const title = screen?.label ?? "MedPass Lens";
 	const menu = (
 		<Menu
 			view={view}
@@ -45,14 +52,15 @@ export function Shell() {
 	);
 
 	return (
-		<div
-			data-view={view}
-			className="win95-raised win95-window flex h-[calc(100svh-var(--win95-top-band))] flex-col gap-1"
-		>
-			<h1 className="win95-titlebar flex min-h-12 items-center gap-2 py-0.5 pr-0.5 pl-3 text-lg min-[900px]:min-h-7 min-[900px]:pr-1 min-[900px]:pl-1.5 min-[900px]:text-sm">
-				<Icon aria-hidden className="size-5 shrink-0 min-[900px]:size-4" />
+		<div data-view={view} className="flex h-svh flex-col bg-background">
+			<h1 className="flex min-h-14 shrink-0 items-center gap-2 border-b bg-card px-3 font-semibold text-lg min-[900px]:min-h-12 min-[900px]:px-4 min-[900px]:text-base">
+				<Icon aria-hidden className="size-5 shrink-0 text-primary" />
 				<span className="min-w-0 flex-1 truncate">
-					<span className="hidden min-[900px]:inline">Telly · </span>
+					{screen !== undefined && (
+						<span className="hidden font-normal text-muted-foreground min-[900px]:inline">
+							MedPass Lens ·{" "}
+						</span>
+					)}
 					{title}
 					{tab !== undefined && tab.to !== screen?.to && ` · ${tab.label}`}
 				</span>
@@ -75,10 +83,10 @@ export function Shell() {
 				)}
 			</h1>
 
-			<div className="flex min-h-0 flex-1 gap-1">
+			<div className="flex min-h-0 flex-1">
 				<nav
 					aria-label="Screens"
-					className="win95-inset hidden w-60 shrink-0 overflow-y-auto bg-card p-1 min-[900px]:block"
+					className="hidden w-60 shrink-0 overflow-y-auto border-r bg-card p-2 min-[900px]:block"
 				>
 					{menu}
 				</nav>
@@ -86,7 +94,7 @@ export function Shell() {
 					{screen?.tabs !== undefined && (
 						<nav
 							aria-label={`${screen.label} pages`}
-							className="flex shrink-0 overflow-x-auto px-1 pt-1"
+							className="flex shrink-0 gap-1 overflow-x-auto border-b bg-card px-2"
 						>
 							{screen.tabs.map((t) => (
 								<Link
@@ -100,7 +108,7 @@ export function Shell() {
 							))}
 						</nav>
 					)}
-					<div className="win95-desktop win95-inset min-h-0 flex-1 overflow-y-auto">
+					<div className="win95-desktop min-h-0 flex-1 overflow-y-auto">
 						<Outlet />
 					</div>
 				</div>
@@ -115,12 +123,10 @@ export function Shell() {
 				<button
 					type="button"
 					popoverTarget={START_MENU}
-					className="win95-tab win95-taskbar-button font-bold"
+					className="win95-tab win95-taskbar-button"
 				>
-					<span aria-hidden className="win95-logo">
-						T
-					</span>
-					Start
+					<MenuIcon aria-hidden className="size-6" />
+					Menu
 				</button>
 				{pinned[view].map((s) => (
 					<Link key={s.to} to={s.to} className="win95-tab win95-taskbar-button">
@@ -135,9 +141,6 @@ export function Shell() {
 				popover="auto"
 				className="win95-raised win95-start-menu"
 			>
-				<p aria-hidden className="win95-start-band">
-					Telly
-				</p>
 				<div className="min-w-0 flex-1 overflow-y-auto p-1">{menu}</div>
 			</div>
 
@@ -165,7 +168,7 @@ export function SignOutDialog({
 				<LogOut aria-hidden className="size-4" /> Sign out
 			</h2>
 			<form method="dialog" className="grid gap-3 p-3 text-sm">
-				<p>Sign out of Telly on this device?</p>
+				<p>Sign out of MedPass Lens on this device?</p>
 				<div className="grid grid-cols-2 gap-2">
 					<Button
 						type="submit"
