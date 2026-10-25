@@ -24,7 +24,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: health-${{ github.ref }}
+  group: health-${{ github.event_name == 'push' && github.sha || github.ref }}
   cancel-in-progress: true
 
 permissions:
