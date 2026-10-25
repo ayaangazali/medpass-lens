@@ -90,10 +90,9 @@ export const newestHeartRate = (samples: readonly HealthSample[]) =>
 			null,
 		);
 
-/** `current` is green, `old` is yellow with a grey value, `plain` has no color. */
 export type Age = {
 	readonly text: string;
-	readonly tone: "current" | "old" | "plain";
+	readonly tone: "current" | "old";
 };
 
 const CURRENT_MINUTES = 10;
@@ -107,28 +106,4 @@ export const liveAge = (sourceTime: string, now: number): Age => {
 	const text =
 		minutes < 60 ? `${minutes} min ago` : `${Math.floor(minutes / 60)} h ago`;
 	return { text: `${text} · not current`, tone: "old" };
-};
-
-const startOfDay = (time: number) => new Date(time).setHours(0, 0, 0, 0);
-
-/**
- * The age of a daily value (sleep, recovery, strain) in local time: "last night" from 18:00
- * yesterday to 06:00 today, "today HH:MM" for the rest of today, otherwise the date.
- */
-export const dailyAge = (sourceTime: string, now: number): Age => {
-	const at = new Date(sourceTime);
-	const today = startOfDay(now);
-	const lastNight = new Date(today).setHours(-6);
-	const morning = new Date(today).setHours(6);
-	if (at.getTime() >= lastNight && at.getTime() < morning)
-		return { text: "last night", tone: "plain" };
-	if (startOfDay(at.getTime()) === today) {
-		const hh = String(at.getHours()).padStart(2, "0");
-		const mm = String(at.getMinutes()).padStart(2, "0");
-		return { text: `today ${hh}:${mm}`, tone: "plain" };
-	}
-	return {
-		text: at.toLocaleDateString([], { month: "short", day: "numeric" }),
-		tone: "plain",
-	};
 };
