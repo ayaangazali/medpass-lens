@@ -37,11 +37,9 @@ import { voiceRoutes } from "./voice";
  */
 export const familyDomainRoutes = (config: ServerConfig): FamilyRoutes => {
 	const voice = elevenLabsVoice(config.voice);
+	const storage = config.r2 === undefined ? undefined : r2Bucket(config.r2);
 	return new Hono<FamilyEnv>()
-		.route(
-			"/",
-			familyRoutes(config.r2 === undefined ? undefined : r2Bucket(config.r2)),
-		)
+		.route("/", familyRoutes(storage))
 		.route("/", alertRoutes())
 		.route("/", voiceRoutes(voice))
 		.route(
@@ -53,17 +51,12 @@ export const familyDomainRoutes = (config: ServerConfig): FamilyRoutes => {
 			}),
 		)
 		.route("/vision", visionRoutes(config.gemini))
-		.route(
-			"/",
-			medicineMemoryRoutes(
-				config.r2 === undefined ? undefined : r2Bucket(config.r2),
-			),
-		)
+		.route("/", medicineMemoryRoutes(storage))
 		.route("/", mealRoutes(config.gemini))
 		.route(
 			"/",
 			reportRoutes(
-				config.r2 === undefined ? undefined : r2Bucket(config.r2),
+				storage,
 				config.reportEmail === undefined
 					? undefined
 					: resendMailer(config.reportEmail),
