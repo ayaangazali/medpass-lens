@@ -329,8 +329,6 @@ test("saving the ladder reads it again", async () => {
 		backup: null,
 		answerSeconds: 120,
 		followUpSeconds: 1800,
-		updatedBy: ME,
-		updatedAt: "2026-10-01T00:00:00.000Z",
 	});
 	expect(await screen.findByText("Saved")).toBeTruthy();
 });

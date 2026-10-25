@@ -114,12 +114,19 @@ export function LadderForm({
 	me: string | null;
 }) {
 	const [draft, setDraft] = useState<ContactLadderInput>(
-		ladder ?? {
-			contacts: [blank(me ?? "")],
-			backup: null,
-			answerSeconds: 120,
-			followUpSeconds: 1800,
-		},
+		ladder === null
+			? {
+					contacts: [blank(me ?? "")],
+					backup: null,
+					answerSeconds: 120,
+					followUpSeconds: 1800,
+				}
+			: {
+					contacts: ladder.contacts,
+					backup: ladder.backup,
+					answerSeconds: ladder.answerSeconds,
+					followUpSeconds: ladder.followUpSeconds,
+				},
 	);
 	const id = useId();
 	const [status, setStatus] = useState<string>(
