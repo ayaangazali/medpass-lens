@@ -21,6 +21,7 @@ import type { Context } from "hono";
 import { Hono } from "hono";
 import { ApiFailure, callReducer, decodeBody, type FamilyEnv } from "../http";
 import type { Finchnode } from "../integrations/finchnode";
+import { readsHealthRecords } from "./care-profile";
 import { familyLabs } from "./finchnode";
 import { readReports } from "./reports";
 
@@ -178,7 +179,7 @@ const draftSummary = async (
 			(b.review?.reviewedAt ?? "").localeCompare(a.review?.reviewedAt ?? ""),
 		)[0];
 	const subjects =
-		finchnode === undefined
+		finchnode === undefined || !readsHealthRecords(c)
 			? []
 			: await familyLabs(finchnode, c.var.db, c.var.familyId, c.req.raw.signal);
 	const granted = subjects.filter((subject) => subject.access === "granted");

@@ -2,6 +2,7 @@
 // and every failure keeps its meaning: signed out, not a member, provider unavailable, or an error.
 // A failure is never turned into empty data.
 import { ApiError } from "@health/contracts";
+import { tokenExpired } from "@health/contracts/session";
 import { onlineManager, queryOptions, useQuery } from "@tanstack/react-query";
 import { Schema } from "effect";
 import { useSyncExternalStore } from "react";
@@ -64,7 +65,11 @@ export const failureFor = (status: number, body: unknown): ApiFailure => {
 
 /** A non-2xx reply's failure. A 401 means the server rejected `token`, so it ends the session. */
 const replyFailure = async (response: Response, token: string) => {
-	if (response.status === 401 && getSessionToken() === token)
+	if (
+		response.status === 401 &&
+		getSessionToken() === token &&
+		!tokenExpired(token)
+	)
 		setSessionToken(null);
 	return failureFor(
 		response.status,

@@ -361,4 +361,24 @@ describe("session renewal (issue #222)", () => {
 		await apiRequest(Health, "/health");
 		expect(calls).toEqual(["refresh", `Bearer ${renewed}`]);
 	});
+
+	test("when renewal fails, a 401 for the expired token keeps the session", async () => {
+		const old = idToken("old", -60);
+		setSessionToken(old, "refresh-1");
+		globalThis.fetch = Object.assign(
+			async (input: RequestInfo | URL) =>
+				String(input).endsWith("/api/sign-in/refresh")
+					? Response.json(
+							{ error: "upstream_error", message: "down" },
+							{ status: 502 },
+						)
+					: Response.json(
+							{ error: "unauthorized", message: "expired" },
+							{ status: 401 },
+						),
+			{ preconnect: realFetch.preconnect },
+		);
+		await apiRequest(Health, "/health");
+		expect(getSessionToken()).toBe(old);
+	});
 });

@@ -1,5 +1,5 @@
 import { type ServerType, serve } from "@hono/node-server";
-import { Effect, Layer } from "effect";
+import { Effect, Layer, Schedule } from "effect";
 import { alertOutboxWorker } from "./alerts/outbox";
 import { createApp } from "./app";
 import type { NoopConfig, ServerConfig } from "./config";
@@ -19,7 +19,30 @@ export type ListenEnv = {
 const openNoopIngest = (noop: NoopConfig | undefined) =>
 	noop === undefined
 		? Effect.succeed(undefined)
-		: Effect.map(openFamilyDb(noop.db), (db) => noopIngest(db, noop.legacy));
+		: Effect.gen(function* () {
+				let db = yield* openFamilyDb(noop.db);
+				const current = () => noopIngest(db, noop.legacy);
+				yield* Effect.forkScoped(
+					Effect.gen(function* () {
+						if (db.connection.isActive) return;
+						yield* Effect.logWarning(
+							"NOOP ingest connection closed; reopening",
+						);
+						db = yield* openFamilyDb(noop.db);
+					}).pipe(
+						Effect.catchCause((cause) =>
+							Effect.logWarning("NOOP ingest reopen failed", cause),
+						),
+						Effect.repeat(Schedule.spaced("5 seconds")),
+					),
+				);
+				return {
+					...current(),
+					tokenFamily: (tokenHash) => current().tokenFamily(tokenHash),
+					record: (familyId, samples) => current().record(familyId, samples),
+					lastReceivedAt: () => current().lastReceivedAt?.(),
+				} satisfies NoopIngest;
+			});
 
 // In-flight requests get this long to finish after SIGTERM. Then their sockets close, which aborts
 // each request's signal, interrupts its scope, and closes its database connection. `close` itself

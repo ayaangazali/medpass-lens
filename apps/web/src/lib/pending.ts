@@ -70,7 +70,8 @@ const send = async (action: PendingAction): Promise<Outcome> => {
 	if (
 		result.kind === "signed_out" ||
 		result.kind === "unavailable" ||
-		(result.kind === "error" && result.unreachable === true)
+		(result.kind === "error" &&
+			(result.unreachable === true || (result.status ?? 0) >= 500))
 	)
 		return { kind: "waiting" };
 	return { kind: "rejected", message: result.message };

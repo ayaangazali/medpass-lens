@@ -96,7 +96,10 @@ export const r2Bucket = (config: R2Config): R2Bucket => {
 	const url = (key: string) => `${base}/${key}`;
 	const send = async (input: string, init?: RequestInit) => {
 		try {
-			return await client.fetch(input, init);
+			return await client.fetch(input, {
+				...init,
+				signal: AbortSignal.timeout(15_000),
+			});
 		} catch {
 			throw new ApiFailure("unavailable", "File storage is not reachable");
 		}

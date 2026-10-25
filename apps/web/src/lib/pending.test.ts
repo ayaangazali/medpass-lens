@@ -112,21 +112,24 @@ test("signed out, an action is refused at once and nothing is saved or sent", as
 	expect(localStorage.getItem("telly.pending")).toBeNull();
 });
 
-test("a 503 reply keeps the action waiting, and a later pass sends it once", async () => {
-	setSessionToken(token("alice"));
-	serve(503);
-	expect(
-		await submitAction("/api/families/1/messages", { body: "hi" }),
-	).toEqual({ kind: "waiting" });
-	expect(
-		JSON.parse(localStorage.getItem("telly.pending") ?? "[]"),
-	).toHaveLength(1);
+test.each([502, 503])(
+	"a %d reply keeps the action waiting, and a later pass sends it once",
+	async (status) => {
+		setSessionToken(token("alice"));
+		serve(status);
+		expect(
+			await submitAction("/api/families/1/messages", { body: "hi" }),
+		).toEqual({ kind: "waiting" });
+		expect(
+			JSON.parse(localStorage.getItem("telly.pending") ?? "[]"),
+		).toHaveLength(1);
 
-	const sent = serve(201);
-	await flushPending();
-	expect(sent).toHaveLength(1);
-	expect(localStorage.getItem("telly.pending")).toBeNull();
-});
+		const sent = serve(201);
+		await flushPending();
+		expect(sent).toHaveLength(1);
+		expect(localStorage.getItem("telly.pending")).toBeNull();
+	},
+);
 
 test("a corrupt or wrongly shaped saved queue is dropped, and a new action still goes out", async () => {
 	setSessionToken(token("alice"));
