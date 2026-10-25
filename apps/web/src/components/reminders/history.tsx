@@ -109,7 +109,7 @@ const VERDICT = {
 	},
 } as const;
 
-function LabelScan({
+export function LabelScan({
 	familyId,
 	occurrence,
 }: {
