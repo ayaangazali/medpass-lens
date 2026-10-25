@@ -1,7 +1,10 @@
 // Reminder lifecycle routes (issue #28), mounted at `/api/families/:familyId`. The database schedules
 // and prompts on its own timers; these handlers call reducers that check membership again, and
 // answer each write from the caller's views only after the database has committed it.
+
 import {
+	type LabelCheck,
+	LabelCheckRequest,
 	type Reminder,
 	ReminderAnswerInput,
 	ReminderConfirmationInput,
@@ -13,15 +16,21 @@ import {
 	type Reminders,
 	type SavedReminderSettings,
 } from "@health/contracts/reminders";
+import { MAX_VISION_IMAGE_BYTES } from "@health/contracts/vision";
+import { Effect } from "effect";
 import { type Context, Hono } from "hono";
+import { bodyLimit } from "hono/body-limit";
 import { ApiFailure, callReducer, decodeBody, type FamilyEnv } from "../http";
+import { createLabelReader, type GeminiConfig } from "../integrations/gemini";
+import { checkLabel } from "../reminders/label-check";
 import {
 	minuteOfDay,
 	readReminderHistory,
 	readReminderSettings,
 	readReminders,
 } from "../reminders/records";
-import { requireHealthRecords } from "./care-profile";
+import { readCareFacts, requireHealthRecords } from "./care-profile";
+import { checkPhoto } from "./meal-facts";
 
 const HISTORY_LIMIT = 200;
 
@@ -42,7 +51,7 @@ const occurrenceOf = (c: Context<FamilyEnv>) => {
 const detail = (c: Context<FamilyEnv>) =>
 	c.json(occurrenceOf(c) satisfies ReminderOccurrenceDetail);
 
-export const reminderRoutes = () =>
+export const reminderRoutes = (gemini?: GeminiConfig) =>
 	new Hono<FamilyEnv>()
 		// Occurrences are health records (#26); reminder settings and definitions are not.
 		.use("/reminder-occurrences/*", requireHealthRecords)
@@ -174,4 +183,45 @@ export const reminderRoutes = () =>
 				}),
 			);
 			return detail(c);
-		});
+		})
+		.post(
+			"/reminder-occurrences/:occurrenceId/label-check",
+			bodyLimit({
+				maxSize: Math.ceil(MAX_VISION_IMAGE_BYTES / 3) * 4 + 16 * 1024,
+				onError: () => {
+					throw new ApiFailure("invalid_request", "The body is too large");
+				},
+			}),
+			async (c) => {
+				if (gemini === undefined)
+					throw new ApiFailure(
+						"unavailable",
+						"Label checks are not configured",
+					);
+				const { occurrence } = occurrenceOf(c);
+				const { image } = await decodeBody(c, LabelCheckRequest);
+				checkPhoto(image);
+				const { value: read } = await Effect.runPromise(
+					createLabelReader(gemini)(image).pipe(
+						Effect.mapError(
+							() =>
+								new ApiFailure(
+									"upstream_error",
+									"The label check did not answer. Try again in a minute.",
+								),
+						),
+					),
+					{ signal: c.req.raw.signal },
+				);
+				const facts = readCareFacts(c);
+				return c.json(
+					checkLabel(read, {
+						occurrence,
+						preferredName: facts?.profile.preferredName ?? null,
+						allergies: facts?.profile.allergies ?? null,
+						instructions: facts?.instructions ?? [],
+						now: Date.now(),
+					}) satisfies LabelCheck,
+				);
+			},
+		);

@@ -85,7 +85,7 @@ const record = (c: Context<FamilyEnv>, mealId: string, fact: MealFact) =>
 	);
 
 /** Rejects a photo that is too large or does not match its declared type. */
-const checkPhoto = ({
+export const checkPhoto = ({
 	type,
 	data,
 }: {

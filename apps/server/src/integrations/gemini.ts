@@ -1,4 +1,5 @@
 import { setTimeout as sleep } from "node:timers/promises";
+import type { LabelRead } from "@health/contracts/reminders";
 import {
 	OBJECT_CATEGORIES,
 	ObjectCategory,
@@ -357,6 +358,63 @@ export const createItemReader =
 					...answer,
 					item: answer.item.trim(),
 					place: answer.place.trim(),
+				}),
+			),
+		);
+
+const LabelAnswer = Schema.Struct({
+	patientName: Schema.String,
+	drugName: Schema.String,
+	strength: Schema.String,
+	directions: Schema.String,
+	rxNumber: Schema.String,
+	confidence: Schema.Finite.check(Schema.isBetween({ minimum: 0, maximum: 1 })),
+});
+
+const labelQuestion = {
+	prompt:
+		"This is a photo of a pharmacy prescription label. Copy exactly what is printed, never guess: " +
+		"the patient's full name, the drug name as printed (with any generic or brand name in " +
+		"parentheses), the strength such as '500 mg', the directions for use, and the Rx number. " +
+		"Use an empty string for any field you cannot read clearly. Set confidence to how sure you " +
+		"are that every field you filled is read correctly; use a low confidence for a blurry, cut " +
+		"off, or glared label, or when this is not a pharmacy label.",
+	schema: {
+		type: "object",
+		properties: {
+			patientName: { type: "string" },
+			drugName: { type: "string" },
+			strength: { type: "string" },
+			directions: { type: "string" },
+			rxNumber: { type: "string" },
+			confidence: { type: "number" },
+		},
+		required: [
+			"patientName",
+			"drugName",
+			"strength",
+			"directions",
+			"rxNumber",
+			"confidence",
+		],
+	},
+};
+
+const filled = (text: string) => (text.trim() === "" ? null : text.trim());
+
+export const createLabelReader =
+	(config: GeminiConfig) =>
+	(image: { readonly type: string; readonly data: string }) =>
+		askAboutImage(config, image, labelQuestion, (body) =>
+			Effect.map(
+				modelJson(body, LabelAnswer),
+				(answer): LabelRead => ({
+					patientName: filled(answer.patientName),
+					drugName: filled(answer.drugName),
+					strength: filled(answer.strength),
+					directions: filled(answer.directions),
+					rxNumber: filled(answer.rxNumber),
+					confidence: answer.confidence,
 				}),
 			),
 		);

@@ -1,13 +1,20 @@
 // The family's reminder history (#28): each due occurrence with every recorded step, in order, with
 // who recorded it, from which device, and the person's own words.
 import {
+	LabelCheck,
 	type ReminderEvent,
 	ReminderHistory,
+	type ReminderOccurrence,
 	type ReminderState,
 } from "@health/contracts/reminders";
+import { Button } from "@health/ui/components/button";
+import { Camera } from "lucide-react";
+import { useRef, useState } from "react";
 
+import { failureText } from "@/components/chat/logic";
+import { capture } from "@/components/wearer/medicine-check";
 import { ApiNotice } from "@/components/win95";
-import { familyPath, useApi } from "@/lib/api";
+import { type ApiResult, apiRequest, familyPath, useApi } from "@/lib/api";
 import { memberLabel } from "@/lib/members";
 
 const SHOWN = 10;
@@ -75,17 +82,122 @@ export function ReminderHistorySection({
 				{state.kind !== "ready" ? (
 					<ApiNotice state={state} what="reminders" />
 				) : (
-					<ReminderList occurrences={due} me={me} />
+					<ReminderList familyId={familyId} occurrences={due} me={me} />
 				)}
 			</div>
 		</section>
 	);
 }
 
+const VERDICT = {
+	match: {
+		title: "Matches",
+		tone: "border-green-700 bg-green-50 text-green-900",
+	},
+	mismatch: {
+		title: "Does not match. Do not give this dose.",
+		tone: "border-red-700 bg-red-50 text-red-900",
+	},
+	retake: {
+		title: "Take the picture again",
+		tone: "border-amber-600 bg-amber-50 text-amber-900",
+	},
+} as const;
+
+function LabelScan({
+	familyId,
+	occurrence,
+}: {
+	familyId: string;
+	occurrence: ReminderOccurrence;
+}) {
+	const input = useRef<HTMLInputElement>(null);
+	const [result, setResult] = useState<
+		ApiResult<LabelCheck> | { kind: "checking" } | null
+	>(null);
+	const send = async (file: File) => {
+		setResult({ kind: "checking" });
+		const bitmap = await createImageBitmap(file).catch(() => null);
+		const frame = bitmap === null ? null : capture(bitmap);
+		bitmap?.close();
+		if (frame === null)
+			return setResult({
+				kind: "error",
+				message: "I can't read this photo. Take a new photo.",
+			});
+		setResult(
+			await apiRequest(
+				LabelCheck,
+				familyPath(
+					familyId,
+					`/reminder-occurrences/${encodeURIComponent(occurrence.id)}/label-check`,
+				),
+				{
+					method: "POST",
+					body: { image: { type: "image/jpeg", data: frame.data } },
+				},
+			),
+		);
+	};
+	const verdict =
+		result?.kind === "ready" ? VERDICT[result.value.verdict] : null;
+	return (
+		<div className="grid gap-1">
+			<Button
+				className="h-11 justify-self-start"
+				disabled={result?.kind === "checking"}
+				onClick={() => input.current?.click()}
+				type="button"
+			>
+				<Camera aria-hidden />
+				Scan label
+			</Button>
+			<input
+				accept="image/*"
+				aria-label={`Photo of the pharmacy label for ${occurrence.title}`}
+				capture="environment"
+				className="hidden"
+				onChange={(event) => {
+					const file = event.currentTarget.files?.[0];
+					event.currentTarget.value = "";
+					if (file !== undefined) void send(file);
+				}}
+				ref={input}
+				type="file"
+			/>
+			{result?.kind === "checking" && <p role="status">Checking the label…</p>}
+			{result?.kind === "ready" && verdict !== null && (
+				<div className={`border-2 p-2 ${verdict.tone}`} role="alert">
+					<p className="font-bold">{verdict.title}</p>
+					{result.value.verdict === "match" && (
+						<p>
+							{result.value.read.drugName} for {result.value.read.patientName}
+						</p>
+					)}
+					<ul className="list-disc pl-5">
+						{result.value.reasons.map((reason) => (
+							<li key={reason}>{reason}</li>
+						))}
+					</ul>
+				</div>
+			)}
+			{result !== null &&
+				result.kind !== "checking" &&
+				result.kind !== "ready" && (
+					<p className="break-words text-destructive" role="alert">
+						{failureText(result)}
+					</p>
+				)}
+		</div>
+	);
+}
+
 function ReminderList({
+	familyId,
 	occurrences,
 	me,
 }: {
+	familyId: string;
 	occurrences: ReminderHistory["occurrences"];
 	me: string | null;
 }) {
@@ -105,6 +217,9 @@ function ReminderList({
 					<EventLine key={event.id} event={event} me={me} />
 				))}
 			</ol>
+			{occurrence.kind === "medication" && (
+				<LabelScan familyId={familyId} occurrence={occurrence} />
+			)}
 		</article>
 	));
 }
