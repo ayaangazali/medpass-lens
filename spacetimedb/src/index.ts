@@ -1240,7 +1240,7 @@ const sampleFact = (
 // The notice for one contact, with only the detail that contact may receive.
 const notice = (need: Need, contact: Contact) => {
 	const lines = [
-		`Telly asks ${contact.name} to take on ${kindLabel[need.kind.tag]}. Open Care in Telly to accept or decline.`,
+		`MedPass Lens asks ${contact.name} to take on ${kindLabel[need.kind.tag]}. Open Care in MedPass Lens to accept or decline.`,
 	];
 	if (contact.detail.tag !== "Minimal") lines.push(need.summary);
 	if (contact.detail.tag === "Facts")
@@ -1316,7 +1316,7 @@ const sendAttempt = (ctx: Ctx, need: Need, step: number) => {
 		ctx,
 		need.familyId,
 		`care-${attempt.key}`,
-		`${how} ${contact.name}: Telly needs someone to take on ${kindLabel[need.kind.tag]}. Open Care in Telly to respond.`,
+		`${how} ${contact.name}: MedPass Lens needs someone to take on ${kindLabel[need.kind.tag]}. Open Care in MedPass Lens to respond.`,
 	);
 	scheduleLadder(
 		ctx,
@@ -1932,7 +1932,12 @@ const tripNotice = (
 		sentAt: ctx.timestamp,
 		clientId,
 	});
-	textWearer(ctx, familyId, clientId, `Telly told your family: “${body}”`);
+	textWearer(
+		ctx,
+		familyId,
+		clientId,
+		`MedPass Lens told your family: “${body}”`,
+	);
 };
 
 type TripRow = Infer<typeof tripEvent.rowType>;
@@ -2786,7 +2791,7 @@ const accept = (ctx: Ctx, need: Need, attempt: Attempt) => {
 		ctx,
 		need.familyId,
 		`care-${attempt.key}-accepted`,
-		`${need.steps[need.step]?.name} accepted ${kindLabel[need.kind.tag]}. Telly contacts nobody else unless help is not confirmed in time.`,
+		`${need.steps[need.step]?.name} accepted ${kindLabel[need.kind.tag]}. MedPass Lens contacts nobody else unless help is not confirmed in time.`,
 	);
 	textHelpComing(ctx, need, need.steps[need.step]?.name);
 };
@@ -2865,7 +2870,7 @@ export const runLadderTimer = spacetimedb.reducer(
 					ctx,
 					need.familyId,
 					`care-${attempt.key}-expired`,
-					`${need.steps[timer.step]?.name} has not confirmed help with ${kindLabel[need.kind.tag]}. Telly is asking the next contact.`,
+					`${need.steps[timer.step]?.name} has not confirmed help with ${kindLabel[need.kind.tag]}. MedPass Lens is asking the next contact.`,
 				);
 				contactStep(ctx, need, timer.step + 1);
 				return;
@@ -4746,7 +4751,7 @@ const textAlert = (
 		ctx,
 		familyId,
 		`alert-${alertId}`,
-		`Telly told your family: ${summary}`,
+		`MedPass Lens told your family: ${summary}`,
 	);
 };
 
@@ -4764,7 +4769,7 @@ const textHelpAsked = (ctx: Ctx, need: Need) => {
 		`help-${need.id}`,
 		first === undefined
 			? `Your family can see your request: ${need.summary}. If you need help now, call them.`
-			: `Telly is asking ${first} for help: ${need.summary}`,
+			: `MedPass Lens is asking ${first} for help: ${need.summary}`,
 	);
 };
 

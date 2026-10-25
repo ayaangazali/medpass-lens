@@ -193,7 +193,7 @@ const emailReport = async (
 		try {
 			await mailer({
 				to: report.email?.recipient ?? "",
-				subject: "Reviewed lab report from Telly",
+				subject: "Reviewed lab report from MedPass Lens",
 				text: [
 					`A family member marked this lab report as reviewed on ${report.review?.reviewedAt ?? ""}.`,
 					"The report is attached as a PDF.",
@@ -278,7 +278,7 @@ export const reportRoutes = (storage?: R2Bucket, mailer?: Mailer) =>
 			return c.json(
 				issuePdfLink(
 					emailedPdf(report),
-					`Telly lab report ${report.createdAt.slice(0, 10)}.pdf`,
+					`MedPass Lens lab report ${report.createdAt.slice(0, 10)}.pdf`,
 				) satisfies ReportPdfLink,
 			);
 		})

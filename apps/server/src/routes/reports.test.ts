@@ -570,7 +570,7 @@ describe.skipIf(dbConfig === undefined)("report email", () => {
 					),
 				);
 				expect(linked.headers.get("content-disposition")).toBe(
-					`inline; filename="Telly lab report ${report.createdAt.slice(0, 10)}.pdf"`,
+					`inline; filename="MedPass Lens lab report ${report.createdAt.slice(0, 10)}.pdf"`,
 				);
 				expect(
 					new Uint8Array(yield* Effect.promise(() => linked.arrayBuffer())),

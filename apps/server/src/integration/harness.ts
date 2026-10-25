@@ -189,7 +189,7 @@ export const startIntegration = async (env: Partial<Env> = {}) => {
 			// No fake answer uses a tool, so the bridge is never reached; it only has to be set.
 			TELLY_FETCH_BRIDGE_URL: issuer,
 			TELLY_FETCH_BRIDGE_TOKEN: "integration-bridge",
-			REPORT_EMAIL_FROM: "Telly <reports@example.com>",
+			REPORT_EMAIL_FROM: "MedPass Lens <reports@example.com>",
 			...env,
 		}),
 	);

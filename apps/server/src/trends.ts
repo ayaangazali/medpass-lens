@@ -345,7 +345,7 @@ export const explainTrend = (input: TrendInput): TrendExplanation => {
 		cautions: [
 			...(HEART_ATTACK.test(input.question)
 				? [
-						"Telly cannot detect or predict a heart attack. For chest pain or other emergency signs, call your local emergency number now.",
+						"MedPass Lens cannot detect or predict a heart attack. For chest pain or other emergency signs, call your local emergency number now.",
 					]
 				: []),
 			"A change or a correlation in these records is not a diagnosis.",

@@ -99,12 +99,12 @@ const wearerRules = [
 // A whole message of greeting, thanks, goodbye, or a question about Telly itself. It needs no
 // records, so Gemini answers it without tools and no Fetch.ai call runs.
 const SMALL_TALK =
-	/^(hi+|hello|hey|hiya|yo|good (morning|afternoon|evening|night)|thanks?( you)?( so much)?|thank u|thx|ty|ok|okay|cool|great|nice|got it|bye|goodbye|see (you|ya)|how are (you|u)|who are (you|u)|who( i| )?s (this|telly)|who am i (talking|speaking) (to|with)|what are (you|u)|what( i| )?s (this|telly)|what can (you|u) do|hola|gracias|buen[oa]s (dias|tardes|noches)|adios|quien eres)( telly)?$/;
+	/^(hi+|hello|hey|hiya|yo|good (morning|afternoon|evening|night)|thanks?( you)?( so much)?|thank u|thx|ty|ok|okay|cool|great|nice|got it|bye|goodbye|see (you|ya)|how are (you|u)|who are (you|u)|who( i| )?s (this|telly|medpass lens)|who am i (talking|speaking) (to|with)|what are (you|u)|what( i| )?s (this|telly|medpass lens)|what can (you|u) do|hola|gracias|buen[oa]s (dias|tardes|noches)|adios|quien eres)( telly| medpass lens)?$/;
 // Without tools the family rules would make the model talk about records it cannot read, so small
 // talk gets only these.
 const smallTalkRules = [
-	"You are Telly, an assistant that helps a family care for a person with memory loss. You can answer questions about that person's health readings, alerts, medicines, and routines.",
-	"The message is a greeting, thanks, goodbye, or a question about you. Reply with one short, friendly line. When asked who you are, introduce yourself as Telly.",
+	"You are MedPass Lens, an assistant that helps a family care for a person with memory loss. You can answer questions about that person's health readings, alerts, medicines, and routines.",
+	"The message is a greeting, thanks, goodbye, or a question about you. Reply with one short, friendly line. When asked who you are, introduce yourself as MedPass Lens.",
 	"Never mention records, readings, data, or whether anything is available, and never answer a health question in this reply.",
 	"Answer in the language of the message.",
 ].join("\n");

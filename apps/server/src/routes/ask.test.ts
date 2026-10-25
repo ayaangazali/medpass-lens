@@ -313,11 +313,11 @@ describe("POST /ask", () => {
 	});
 
 	test("a greeting gets one Gemini call without tools or record rules, so no Fetch.ai tool runs", async () => {
-		gemini = () => Response.json(answer("Hello! I am Telly."));
+		gemini = () => Response.json(answer("Hello! I am MedPass Lens."));
 		const greetings = [
 			"Hi",
 			"hello!",
-			"Thank you, Telly.",
+			"Thank you, MedPass Lens.",
 			"Buenos días",
 			"Who is this",
 			"who's this?",
@@ -330,7 +330,7 @@ describe("POST /ask", () => {
 		// Without tools, the record rules ("say that the data is unavailable") must not reach the
 		// model, or it tells the family that their records are missing.
 		for (const body of geminiBodies) {
-			expect(body.system_instruction).toContain("Telly");
+			expect(body.system_instruction).toContain("MedPass Lens");
 			expect(body.system_instruction).not.toContain("unavailable");
 		}
 		expect(bridgeCalls).toHaveLength(0);

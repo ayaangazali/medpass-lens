@@ -32,7 +32,7 @@ const setup = () => {
 	const h = harness(NOW);
 	h.call(mod.createFamily, ray, { name: "Rivera" });
 	h.call(mod.createFamily, ray, { name: "Empty" });
-	h.call(mod.createFamily, ana, { name: "Telly's Family" });
+	h.call(mod.createFamily, ana, { name: "MedPass Lens's Family" });
 	const record = (over: Record<string, unknown>) =>
 		h.call(mod.recordSample, ana, {
 			familyId: 3n,

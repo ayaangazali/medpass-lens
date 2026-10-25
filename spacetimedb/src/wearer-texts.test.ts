@@ -181,7 +181,7 @@ describe("wearer texts", () => {
 		expect(pending(h)).toMatchObject([
 			{
 				key: "alert-1",
-				body: "Telly told your family: Asked for help",
+				body: "MedPass Lens told your family: Asked for help",
 				notBefore: at("2026-01-05T13:00:00Z"),
 			},
 		]);

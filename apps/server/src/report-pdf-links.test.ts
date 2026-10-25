@@ -18,12 +18,12 @@ afterEach(() => setSystemTime());
 
 describe("one-use PDF links", () => {
 	test("a link answers its PDF once, without sign-in", async () => {
-		const { url } = issuePdfLink(pdf, "Telly lab report 2026-10-04.pdf");
+		const { url } = issuePdfLink(pdf, "MedPass Lens lab report 2026-10-04.pdf");
 		const first = await app.request(url);
 		expect(first.status).toBe(200);
 		expect(first.headers.get("content-type")).toBe("application/pdf");
 		expect(first.headers.get("content-disposition")).toBe(
-			'inline; filename="Telly lab report 2026-10-04.pdf"',
+			'inline; filename="MedPass Lens lab report 2026-10-04.pdf"',
 		);
 		expect(new Uint8Array(await first.arrayBuffer())).toEqual(pdf);
 		expect((await app.request(url)).status).toBe(404);

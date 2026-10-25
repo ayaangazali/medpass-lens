@@ -217,7 +217,7 @@ describe("explainTrend", () => {
 		]);
 		expect(reply.carePlan.status).toBe("not_shared");
 		expect(reply.cautions[0]).toStartWith(
-			"Telly cannot detect or predict a heart attack.",
+			"MedPass Lens cannot detect or predict a heart attack.",
 		);
 		expect(explain().cautions).not.toContainEqual(
 			expect.stringContaining("heart attack"),

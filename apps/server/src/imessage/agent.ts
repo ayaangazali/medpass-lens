@@ -11,7 +11,7 @@ import type { Identity } from "spacetimedb";
 import { isDoneReply, itemAsk, type WearerActions } from "./finder";
 
 export const unavailableReply =
-	"Telly cannot answer right now. Please try again later or ask a family member.";
+	"MedPass Lens cannot answer right now. Please try again later or ask a family member.";
 const invalidReply = "Please send a short text question.";
 
 // Photo types Gemini reads. iPhone photos arrive as HEIC.

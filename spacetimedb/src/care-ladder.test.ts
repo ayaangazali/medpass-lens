@@ -179,10 +179,10 @@ describe("openCareNeed", () => {
 			status: { tag: "Sent" },
 		});
 		expect(attempt?.body).toBe(
-			"Telly asks Carol to take on a request for help. Open Care in Telly to accept or decline.\nMum needs a lift",
+			"MedPass Lens asks Carol to take on a request for help. Open Care in MedPass Lens to accept or decline.\nMum needs a lift",
 		);
 		expect(chat(h)).toEqual([
-			"Message for Carol: Telly needs someone to take on a request for help. Open Care in Telly to respond.",
+			"Message for Carol: MedPass Lens needs someone to take on a request for help. Open Care in MedPass Lens to respond.",
 		]);
 		expect(h.rows("ladderTimer")).toMatchObject([
 			{ needId: 1n, step: 0, purpose: { tag: "AnswerDue" } },
@@ -218,12 +218,12 @@ describe("openCareNeed", () => {
 		});
 		const first = h.rows("contactAttempt")[0] as { body: string };
 		expect(first.body).toBe(
-			"Telly asks Bob to take on a request for help. Open Care in Telly to accept or decline.",
+			"MedPass Lens asks Bob to take on a request for help. Open Care in MedPass Lens to accept or decline.",
 		);
 		respond(h, bob, "Decline");
 		const second = h.rows("contactAttempt")[1] as { body: string };
 		expect(second.body.split("\n")).toEqual([
-			"Telly asks Carol to take on a request for help. Open Care in Telly to accept or decline.",
+			"MedPass Lens asks Carol to take on a request for help. Open Care in MedPass Lens to accept or decline.",
 			"Mum needs a lift",
 			"heart_rate 130 bpm (watch, 2026-01-05T11:59:00.000000Z, synthetic demo data, validated signal)",
 		]);
@@ -396,7 +396,7 @@ describe("respondToCareNeed", () => {
 		});
 		expect(chat(h)).toHaveLength(2);
 		expect(chat(h)[1]).toBe(
-			"Bob accepted a request for help. Telly contacts nobody else unless help is not confirmed in time.",
+			"Bob accepted a request for help. MedPass Lens contacts nobody else unless help is not confirmed in time.",
 		);
 		tick(h, 60); // AnswerDue passes; need is Accepted so nothing moves
 		expect(attempts(h)).toEqual([[0, "Message", "Accepted"]]);
@@ -520,7 +520,7 @@ describe("runLadderTimer", () => {
 			acceptedBy: undefined,
 		});
 		expect(chat(h)).toContain(
-			"Bob has not confirmed help with a request for help. Telly is asking the next contact.",
+			"Bob has not confirmed help with a request for help. MedPass Lens is asking the next contact.",
 		);
 	});
 

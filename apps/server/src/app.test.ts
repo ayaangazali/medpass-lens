@@ -188,7 +188,7 @@ describe("server boundaries", () => {
 			ELEVENLABS_VOICE_ID: "voice",
 			ELEVENLABS_API_URL: "http://127.0.0.1:1",
 			GEMINI_BASE_URL: "http://127.0.0.1:1",
-			REPORT_EMAIL_FROM: "Telly <reports@example.com>",
+			REPORT_EMAIL_FROM: "MedPass Lens <reports@example.com>",
 			SPACETIMEDB_URI: db.uri,
 			SPACETIMEDB_DATABASE: db.database,
 			NOOP_SPACETIMEDB_TOKEN: "ingest-token",
@@ -311,7 +311,7 @@ describe("server boundaries", () => {
 				ELEVENLABS_VOICE_ID: "voice",
 				ELEVENLABS_API_URL: "http://127.0.0.1:1",
 				GEMINI_BASE_URL: "http://127.0.0.1:1",
-				REPORT_EMAIL_FROM: "Telly <reports@saintess.tech>",
+				REPORT_EMAIL_FROM: "MedPass Lens <reports@saintess.tech>",
 			}),
 		);
 		const allowed = async (origin: string) =>
