@@ -23,7 +23,7 @@ CI (`.github/workflows/health-deploy.yml`) builds one artifact, deploys it, and 
 - secrets `TELLY_DEPLOY_CLOUDFLARE_API_TOKEN` and `TELLY_SECRETS_PULL_TOKEN`: copy them from the shared key store by hand.
 - optional secret `SPACETIMEDB_TOKEN`: a SpacetimeDB login token that owns the Maincloud database `telly`. With it, the deploy job publishes the module before the Worker (never with `--delete-data`). Without it, the host auto-deploy below publishes the module.
 
-Until the secrets are set (#184), CI skips the deploy. From an operator machine, release the checked-out commit with one command. It publishes the SpacetimeDB module to Maincloud without deleting data, then builds, packs, and deploys the Worker. It needs `bun`, `jq`, `crane`, and `spacetime` on `PATH` and the credential files named at the top of `deploy/cloudflare/release.sh`:
+Until the secrets are set (#184), CI skips the deploy. From an operator machine, release the checked-out commit with one command. It publishes the SpacetimeDB module to Maincloud without deleting data, then builds, packs, and deploys the Worker. It needs Linux (the pack and deploy steps use GNU `realpath` and `tar`; on macOS the release stops after the module publish), `bun`, `node`, `jq`, `crane`, and `spacetime` on `PATH`, and the credential files named at the top of `deploy/cloudflare/release.sh`:
 
 ```bash
 sh deploy/cloudflare/release.sh
