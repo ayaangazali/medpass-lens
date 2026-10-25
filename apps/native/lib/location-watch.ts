@@ -11,7 +11,7 @@ import * as TaskManager from "expo-task-manager";
 
 import { ENV } from "@/src/env";
 
-import { readSession } from "./session";
+import { keychain, readSession } from "./session";
 
 const TASK = "telly-location-watch";
 const FAMILY_KEY = "telly.locationWatch.family";
@@ -31,7 +31,8 @@ export const setLocationWatch = async (familyId: string | null) => {
 	if (familyId === null) return stop();
 	if (!(await Location.requestForegroundPermissionsAsync()).granted) return;
 	if (!(await Location.requestBackgroundPermissionsAsync()).granted) return;
-	await SecureStore.setItemAsync(FAMILY_KEY, familyId);
+	await SecureStore.deleteItemAsync(FAMILY_KEY);
+	await SecureStore.setItemAsync(FAMILY_KEY, familyId, keychain);
 	if (await Location.hasStartedLocationUpdatesAsync(TASK)) return;
 	await Location.startLocationUpdatesAsync(TASK, {
 		accuracy: Location.Accuracy.Balanced,
@@ -47,11 +48,12 @@ export const setLocationWatch = async (familyId: string | null) => {
 TaskManager.defineTask<{ locations: Location.LocationObject[] }>(
 	TASK,
 	async ({ data, error }) => {
+		if (error !== null) return;
 		const latest = data.locations.at(-1);
 		const familyId = await SecureStore.getItemAsync(FAMILY_KEY);
 		// A position without an accuracy cannot be judged, so it is not sent.
 		const accuracy = latest?.coords.accuracy ?? null;
-		if (error !== null || latest === undefined || accuracy === null) return;
+		if (latest === undefined || accuracy === null) return;
 		if (familyId === null) return;
 		const session = await readSession();
 		if (session === null) return stop();
