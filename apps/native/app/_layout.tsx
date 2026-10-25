@@ -5,11 +5,10 @@ import {
 	ThemeProvider,
 } from "expo-router/react-navigation";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import { NAV_THEME } from "@/lib/constants";
-import { useColorScheme } from "@/lib/use-color-scheme";
 // Defines the background location task at startup, as iOS needs when it wakes the app (#302).
 import "@/lib/location-watch";
 
@@ -29,10 +28,10 @@ const styles = StyleSheet.create({
 });
 
 export default function RootLayout() {
-	const { isDarkColorScheme } = useColorScheme();
+	const theme = useColorScheme() === "dark" ? DARK_THEME : LIGHT_THEME;
 
 	return (
-		<ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+		<ThemeProvider value={theme}>
 			{/* Light text on the web app's teal safe-area padding (app/index.tsx). */}
 			<StatusBar style="light" />
 			<GestureHandlerRootView style={styles.container}>
