@@ -4,7 +4,7 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test";
 import { EmergencyOutcome } from "@health/contracts/emergency";
 import { Effect, Schema } from "effect";
-import { openFamilyDb, readFamilyRecords } from "../db";
+import { type FamilyDb, openFamilyDb, readFamilyRecords } from "../db";
 import { careProfileRoutes } from "./care-profile";
 import { emergencyRoutes } from "./emergency";
 import {
@@ -46,6 +46,24 @@ beforeEach(() => {
 });
 afterEach(() => {
 	globalThis.fetch = realFetch;
+});
+
+test("a database outage reports the failed family alert with a reason", async () => {
+	const closed = {
+		identity: "a".repeat(64),
+		token: "t",
+		connection: { isActive: false },
+	} as unknown as FamilyDb;
+	const { json } = await Effect.runPromise(
+		send(familyApp(closed, "1", emergencyRoutes()), "POST", "/emergency", {
+			kind: "family",
+			report: null,
+		}),
+	);
+	expect(decode(json)).toMatchObject({
+		action: "family",
+		family: { status: "failed", message: expect.stringMatching(/\S/) },
+	});
 });
 
 describe.skipIf(dbConfig === undefined)("emergency requests", () => {
