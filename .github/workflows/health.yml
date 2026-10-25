@@ -83,6 +83,7 @@ jobs:
               - '.fallowrc.json'
               - '.sentrux/**'
               - '.gitignore'
+              - 'deploy/**'
             quality: *source
             ./apps/web:
               - *all
@@ -136,10 +137,13 @@ jobs:
               - *all
               - 'agents/fetch/**'
               - 'packages/contracts/**'
+            cloudflare-worker:
+              - *all
+              - 'deploy/cloudflare/worker*'
       # `types` and `test` run when a workspace changed; NO_CODE when nothing was picked.
       - id: pick
         env:
-          CHANGED: ${{ github.event_name == 'workflow_dispatch' && '["lint","quality","build-smoke","web-smoke","db","fetch-agent","./apps/web","./apps/server","./apps/native","./packages/ui","./packages/contracts","./packages/db","./spacetimedb"]' || steps.filter.outputs.changes }}
+          CHANGED: ${{ github.event_name == 'workflow_dispatch' && '["lint","quality","build-smoke","web-smoke","db","fetch-agent","cloudflare-worker","./apps/web","./apps/server","./apps/native","./packages/ui","./packages/contracts","./packages/db","./spacetimedb"]' || steps.filter.outputs.changes }}
         run: |
           echo "$CHANGED" | jq -c 'map(select(startswith("./")))' | sed 's/^/workspaces=/' >> "$GITHUB_OUTPUT"
           echo "$CHANGED" | jq -c --arg none "$NO_CODE" 'map(select(. != "any")) |
@@ -250,6 +254,8 @@ jobs:
           python -m venv agents/fetch/.venv &&
           agents/fetch/.venv/bin/pip install -r agents/fetch/requirements.txt &&
           cd agents/fetch && .venv/bin/python -m unittest -v
+      - if: matrix.name == 'cloudflare-worker'
+        run: bun test ./deploy/cloudflare
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always() && matrix.name == 'db'
         with:
