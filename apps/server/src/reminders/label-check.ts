@@ -77,6 +77,37 @@ const strengths = (text: string) =>
 		([, amount, unit]) => `${Number(amount)}${unit?.toLowerCase()}`,
 	);
 
+const doseReasons = (occurrence: ReminderOccurrence, now: number) => {
+	const reasons: string[] = [];
+	if (occurrence.kind !== "medication")
+		reasons.push("This reminder is not a medication dose.");
+	if (
+		occurrence.state === "self_reported_complete" ||
+		occurrence.state === "caregiver_confirmed"
+	)
+		reasons.push("This dose was already given.");
+	const early = Date.parse(occurrence.scheduledFor) - now;
+	if (Math.abs(early) > DUE_WINDOW_MS)
+		reasons.push(
+			`This dose is not due now: it is due ${Math.round(Math.abs(early) / 60_000)} minutes ${early > 0 ? "from now" : "ago"}.`,
+		);
+	return reasons;
+};
+
+const strengthReasons = (
+	instruction: CareInstruction | undefined,
+	strength: string | null,
+) => {
+	if (instruction === undefined || strength === null) return [];
+	const planned = strengths(`${instruction.name} ${instruction.instruction}`);
+	return planned.length > 0 &&
+		!strengths(strength).every((s) => planned.includes(s))
+		? [
+				`Label says ${strength}. The care plan says “${instruction.instruction}”.`,
+			]
+		: [];
+};
+
 export const checkLabel = (
 	read: LabelRead,
 	dose: {
@@ -88,20 +119,7 @@ export const checkLabel = (
 	},
 ): LabelCheck => {
 	const { occurrence } = dose;
-	const reasons: string[] = [];
-	if (occurrence.kind !== "medication")
-		reasons.push("This reminder is not a medication dose.");
-	if (
-		occurrence.state === "self_reported_complete" ||
-		occurrence.state === "caregiver_confirmed"
-	)
-		reasons.push("This dose was already given.");
-	const early = Date.parse(occurrence.scheduledFor) - dose.now;
-	if (Math.abs(early) > DUE_WINDOW_MS)
-		reasons.push(
-			`This dose is not due now: it is due ${Math.round(Math.abs(early) / 60_000)} minutes ${early > 0 ? "from now" : "ago"}.`,
-		);
-
+	const reasons = doseReasons(occurrence, dose.now);
 	const { patientName, drugName } = read;
 	if (read.confidence < READABLE || patientName === null || drugName === null)
 		return reasons.length > 0
@@ -148,18 +166,7 @@ export const checkLabel = (
 			`Label says ${drugName}. This dose is ${instruction?.name ?? occurrence.title}.`,
 		);
 
-	if (instruction !== undefined && read.strength !== null) {
-		const planned = strengths(`${instruction.name} ${instruction.instruction}`);
-		const labelled = strengths(read.strength);
-		if (
-			planned.length > 0 &&
-			labelled.length > 0 &&
-			!labelled.every((s) => planned.includes(s))
-		)
-			reasons.push(
-				`Label says ${read.strength}. The care plan says “${instruction.instruction}”.`,
-			);
-	}
+	reasons.push(...strengthReasons(instruction, read.strength));
 
 	const labelWords = labelNames.flat();
 	for (const allergy of dose.allergies ?? [])

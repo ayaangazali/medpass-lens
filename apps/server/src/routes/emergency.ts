@@ -147,7 +147,9 @@ const tellFamily = async (
 		return {
 			status: "failed",
 			message:
-				error instanceof Error ? error.message : "The alert was not raised",
+				error instanceof ApiFailure
+					? error.message
+					: "The alert was not raised",
 		};
 	}
 	const raised = readFamilyRecords(db)

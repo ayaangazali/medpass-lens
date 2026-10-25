@@ -69,7 +69,7 @@ describe.skipIf(dbConfig === undefined)("meal and drink check-ins", () => {
 					const later = utcClock(Date.now() + 3 * 3_600_000);
 					for (const [kind, title, time] of [
 						["meal", "Synthetic lunch", later],
-						["medication", "Synthetic tablet", later],
+						["appointment", "Synthetic visit", later],
 						["hydration", "Synthetic water", soon],
 					] as const)
 						yield* send(app, "POST", "/reminders", {
@@ -98,7 +98,7 @@ describe.skipIf(dbConfig === undefined)("meal and drink check-ins", () => {
 					const meal = idOf("meal");
 					expect((yield* help(meal.id, "h-1")).status).toBe(200);
 					// Help on another kind of reminder contacts nobody.
-					expect((yield* help(idOf("medication").id, "h-2")).status).toBe(200);
+					expect((yield* help(idOf("appointment").id, "h-2")).status).toBe(200);
 					expect(
 						(yield* needs).map(({ kind, summary, clientId }) => ({
 							kind,

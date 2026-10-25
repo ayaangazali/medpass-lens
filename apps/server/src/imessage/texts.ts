@@ -2,7 +2,7 @@
 // wearer texts, and sends each to the family's wearer phone over iMessage. The database made each
 // text once per event and set when it may go (after quiet hours). Logs name the text key only: never
 // the phone number or the text.
-import { Duration, Effect, Schedule } from "effect";
+import { Effect, Schedule } from "effect";
 import { callDb, type DbConfig, type FamilyDb, openFamilyDb } from "../db";
 
 // A text this late would confuse more than help: a reminder from an hour ago, for example.
@@ -29,7 +29,6 @@ const runWearerTexts = (
 	db: FamilyDb,
 	send: (address: string, body: string) => Promise<void>,
 	phones: ReadonlyMap<bigint, string>,
-	pollEvery: Duration.Input = Duration.seconds(5),
 ) => {
 	// ponytail: send, then settle. A crash between the two, or a second container during a rollout,
 	// can send a text twice; add a claim with a lease (as the alert outbox has) if that is seen.
@@ -79,7 +78,7 @@ const runWearerTexts = (
 			const notBefore = row.notBefore.toDate();
 			if (notBefore.getTime() <= now) yield* step({ ...row, notBefore }, now);
 		}
-		yield* Effect.sleep(pollEvery);
+		yield* Effect.sleep("5 seconds");
 	}).pipe(Effect.forever);
 };
 
