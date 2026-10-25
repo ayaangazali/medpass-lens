@@ -1,4 +1,5 @@
 import { Schema } from "effect";
+import { isBase64 } from "./ask";
 
 /** Largest decoded image the vision route accepts. Clients downscale larger frames first. */
 export const MAX_VISION_IMAGE_BYTES = 4 * 1024 * 1024;
@@ -64,7 +65,7 @@ export const ObjectDetectionRequest = Schema.Struct({
 	image: Schema.Struct({
 		type: Schema.Literals(["image/jpeg", "image/png"]),
 		/** Base64 bytes; at most `MAX_VISION_IMAGE_BYTES` once decoded. */
-		data: Schema.String.check(Schema.isMinLength(1), Schema.isBase64()),
+		data: Schema.String.check(Schema.isMinLength(1), isBase64),
 	}),
 });
 export type ObjectDetectionRequest = typeof ObjectDetectionRequest.Type;
