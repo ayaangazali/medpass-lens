@@ -13,7 +13,9 @@ import { memberLabel } from "@/lib/members";
 
 /** Creates join links for one family. `create` answers the failure text, or null on success. */
 export function useInvite(familyId: string) {
-	const [link, setLink] = useState<string | null>(null);
+	const [made, setMade] = useState<{ familyId: string; link: string } | null>(
+		null,
+	);
 	const create = async (): Promise<string | null> => {
 		const result = await apiRequest(
 			FamilyInvite,
@@ -21,10 +23,13 @@ export function useInvite(familyId: string) {
 			{ method: "POST" },
 		);
 		if (result.kind !== "ready") return failureText(result);
-		setLink(`${location.origin}/join/${encodeURIComponent(result.value.code)}`);
+		setMade({
+			familyId,
+			link: `${location.origin}/join/${encodeURIComponent(result.value.code)}`,
+		});
 		return null;
 	};
-	return { link, create };
+	return { link: made?.familyId === familyId ? made.link : null, create };
 }
 
 export function InviteLink({

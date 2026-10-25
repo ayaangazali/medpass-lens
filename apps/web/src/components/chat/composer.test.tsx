@@ -420,6 +420,19 @@ test("in family mode a recording adds its words to the box, not to Gemini", asyn
 	await waitFor(() => expect(box(view).value).toBe("see you soon"));
 });
 
+test("Family only turned on while recording keeps the recording from Gemini", async () => {
+	microphone(async () => ({ getTracks: () => [track] }));
+	recorded = [new Blob(["voice"])];
+	const { view, agent, family } = renderComposer();
+	fireEvent.click(view.getByRole("button", { name: "Voice" }));
+	const stop = await view.findByRole("button", { name: "Stop recording" });
+	fireEvent.click(view.getByRole("checkbox", { name: "Family only" }));
+	fireEvent.click(stop);
+	await waitFor(() => expect(box(view).value).toBe("see you soon"));
+	expect(family.transcribe).toHaveBeenCalledTimes(1);
+	expect(agent.askVoice).not.toHaveBeenCalled();
+});
+
 test("in family mode silence or a failed transcription says so and keeps the box", async () => {
 	const errors = spyOn(console, "error").mockImplementation(() => {});
 	microphone(async () => ({ getTracks: () => [track] }));

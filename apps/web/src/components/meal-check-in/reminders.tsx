@@ -233,7 +233,7 @@ export function MealReminders({ familyId }: { familyId: string }) {
 
 	/** Saves the draft; an edit adds the new reminder, then deletes the old one. */
 	const save = async (draft: Draft, replacing: Reminder | null) => {
-		if (saved === null) {
+		if (settings.kind === "ready" && saved === null) {
 			// The first reminder saves this browser's time zone as the family's.
 			const put = await apiRequest(null, settingsPath, {
 				method: "PUT",

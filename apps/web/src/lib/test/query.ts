@@ -1,5 +1,5 @@
 // Readies the app's one query cache for a test file. Load it after the file's DOM exists.
-import { notifyManager } from "@tanstack/react-query";
+import { environmentManager, notifyManager } from "@tanstack/react-query";
 
 import { queryClient } from "@/lib/query";
 
@@ -10,6 +10,7 @@ import { queryClient } from "@/lib/query";
  * timers back, so it tells them at once, as a promise would.
  */
 export function prepareQueryCache() {
+	environmentManager.setIsServer(() => typeof window === "undefined");
 	notifyManager.setScheduler(queueMicrotask);
 	queryClient.unmount();
 	queryClient.mount();

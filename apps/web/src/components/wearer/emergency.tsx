@@ -56,6 +56,7 @@ const locate = () =>
 	new Promise<LocationReading>((resolve) => {
 		if (!("geolocation" in navigator))
 			return resolve({ status: "unavailable" });
+		setTimeout(() => resolve({ status: "unavailable" }), 3_000);
 		navigator.geolocation.getCurrentPosition(
 			({ coords, timestamp }) =>
 				resolve({

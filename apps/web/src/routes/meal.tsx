@@ -69,7 +69,7 @@ function MealScreen({ familyId }: { familyId: string | null }) {
 							className="ml-auto h-12 text-[18px] [&_svg]:size-5"
 							onClick={() => {
 								meal.newMeal();
-								video.current = null;
+								if (meal.photo !== null) video.current = null;
 								setPart("food");
 							}}
 							variant="outline"

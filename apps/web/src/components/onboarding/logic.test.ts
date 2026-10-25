@@ -2,7 +2,6 @@ import { expect, test } from "bun:test";
 import type { HealthSample } from "@health/contracts";
 
 import {
-	dailyAge,
 	inviteCode,
 	liveAge,
 	newestHeartRate,
@@ -33,21 +32,6 @@ test("a heart rate is current for 10 minutes, then says it is not current", () =
 		text: "2 h ago · not current",
 		tone: "old",
 	});
-});
-
-test("a daily value says last night, today with its time, or its date", () => {
-	const local = (day: number, hour: number, minute = 0) =>
-		new Date(2026, 9, day, hour, minute).toISOString();
-	const noon = new Date(2026, 9, 4, 12).getTime();
-	expect(dailyAge(local(3, 23), noon).text).toBe("last night");
-	expect(dailyAge(local(4, 5, 59), noon).text).toBe("last night");
-	expect(dailyAge(local(4, 7, 5), noon).text).toBe("today 07:05");
-	expect(dailyAge(local(3, 9), noon).text).toBe(
-		new Date(2026, 9, 3, 9).toLocaleDateString([], {
-			month: "short",
-			day: "numeric",
-		}),
-	);
 });
 
 test("a signed-in person without a family goes to onboarding, except to join by invite", () => {

@@ -121,6 +121,8 @@ export const formatTime = (iso: string | number): string => {
 		? String(iso)
 		: date.toLocaleString(undefined, {
 				dateStyle: "medium",
-				timeStyle: "short",
+				...(typeof iso === "string" && iso.length <= 10
+					? { timeZone: "UTC" }
+					: { timeStyle: "short" }),
 			});
 };
