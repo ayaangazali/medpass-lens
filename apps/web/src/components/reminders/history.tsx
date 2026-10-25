@@ -57,7 +57,11 @@ function EventLine({ event, me }: { event: ReminderEvent; me: string | null }) {
 /** The newest occurrences already due; the rest are still ahead. */
 const dueNow = (occurrences: ReminderHistory["occurrences"]) =>
 	occurrences
-		.filter((d) => Date.parse(d.occurrence.scheduledFor) <= Date.now())
+		.filter(
+			(d) =>
+				Date.parse(d.occurrence.scheduledFor) <=
+				Date.now() + (d.occurrence.kind === "medication" ? 60 * 60_000 : 0),
+		)
 		.slice(0, SHOWN);
 
 export function ReminderHistorySection({
