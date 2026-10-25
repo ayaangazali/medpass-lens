@@ -290,6 +290,13 @@ describe("runReminderTimer", () => {
 		expect(occ(h)).toEqual(before);
 	});
 
+	test("an occurrence settled before its first prompt still schedules the next one", () => {
+		const h = setup();
+		answer(h, "done");
+		fire(h);
+		expect(occ(h, 2n).scheduledFor).toEqual(at("2026-01-06T13:00:00Z"));
+	});
+
 	test("a deleted reminder gets no next occurrence", () => {
 		const h = setup();
 		h.advance(2 * 3600);
