@@ -29,8 +29,6 @@ export function useWearerRecords() {
 		familyId: family?.id ?? null,
 		familiesKind: families.kind,
 		records,
-		retry: () => {
-			if (path !== null) reread(path);
-		},
+		retry: () => reread(path ?? "/api/families"),
 	};
 }
