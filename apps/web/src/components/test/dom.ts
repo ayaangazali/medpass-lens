@@ -4,10 +4,10 @@
 // tests and removes them after. A component test starts with `import "../test/setup";` and takes
 // `render`, `fireEvent`, and the other Testing Library exports from this module.
 
-import { afterAll, afterEach, beforeAll } from "bun:test";
+import { afterAll, afterEach, beforeAll, mock } from "bun:test";
 import { GlobalRegistrator } from "@happy-dom/global-registrator";
 import { setSessionToken } from "@/lib/session";
-import { registerDom } from "./setup";
+import { registerDom, SERVER } from "./setup";
 
 // Bun evaluates CommonJS packages such as React DOM when it links the static imports, before
 // `./setup` runs. React DOM decides at load whether it runs in a browser (for example, whether text
@@ -35,6 +35,7 @@ export type Routes = Record<
 
 /** Call at the top of a component test file. */
 export function installDom() {
+	mock.module("@/env", () => ({ ENV: { VITE_SERVER_URL: SERVER } }));
 	registerDom();
 	beforeAll(async () => {
 		// Dynamic for the same reason as React DOM: the query library checks for `window` on load.
