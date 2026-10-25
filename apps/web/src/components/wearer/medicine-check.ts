@@ -42,9 +42,13 @@ export type Frame = {
 };
 
 /** Encodes the video's current frame as JPEG, scaled down until it fits the vision limit. */
-export const capture = (video: HTMLVideoElement): Frame | null => {
-	const width = video.videoWidth;
-	const height = video.videoHeight;
+export const capture = (
+	video: HTMLVideoElement | ImageBitmap,
+): Frame | null => {
+	const [width, height] =
+		"videoWidth" in video
+			? [video.videoWidth, video.videoHeight]
+			: [video.width, video.height];
 	const canvas = document.createElement("canvas");
 	const context = canvas.getContext("2d");
 	if (width === 0 || height === 0 || context === null) return null;

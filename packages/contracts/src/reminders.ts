@@ -1,6 +1,7 @@
 import { Schema } from "effect";
 import { isTimeZone } from "./ask";
 import { DbId, UtcTime } from "./families";
+import { MAX_VISION_IMAGE_BYTES } from "./vision";
 
 // The one reminder lifecycle (issue #28), under `/api/families/:familyId`. Medication (#31), meals
 // and drinks (#32), bedtime (#37), appointments, and charging are reminder kinds on it; a feature
@@ -237,3 +238,31 @@ export const ReminderConfirmationInput = Schema.Struct({
 	wording: Wording,
 });
 export type ReminderConfirmationInput = typeof ReminderConfirmationInput.Type;
+
+export const LabelCheckRequest = Schema.Struct({
+	image: Schema.Struct({
+		type: Schema.Literals(["image/jpeg", "image/png"]),
+		data: Schema.String.check(
+			Schema.isMinLength(1),
+			Schema.isMaxLength(Math.ceil(MAX_VISION_IMAGE_BYTES / 3) * 4),
+		),
+	}),
+});
+export type LabelCheckRequest = typeof LabelCheckRequest.Type;
+
+export const LabelRead = Schema.Struct({
+	patientName: Schema.NullOr(Schema.String),
+	drugName: Schema.NullOr(Schema.String),
+	strength: Schema.NullOr(Schema.String),
+	directions: Schema.NullOr(Schema.String),
+	rxNumber: Schema.NullOr(Schema.String),
+	confidence: Schema.Finite.check(Schema.isBetween({ minimum: 0, maximum: 1 })),
+});
+export type LabelRead = typeof LabelRead.Type;
+
+export const LabelCheck = Schema.Struct({
+	verdict: Schema.Literals(["match", "mismatch", "retake"]),
+	reasons: Schema.Array(Schema.String),
+	read: LabelRead,
+});
+export type LabelCheck = typeof LabelCheck.Type;

@@ -69,7 +69,7 @@ export const familyDomainRoutes = (config: ServerConfig): FamilyRoutes => {
 					: resendMailer(config.reportEmail),
 			),
 		)
-		.route("/", reminderRoutes())
+		.route("/", reminderRoutes(config.gemini))
 		.route("/", speakerRoutes())
 		.route("/", finchnodeRoutes(config.finchnode))
 		.route("/", appointmentRoutes(config.finchnode))
