@@ -42,7 +42,6 @@
 		"varlock": "catalog:"
 	},
 	"devDependencies": {
-		"@health/config": "workspace:*",
 		"@types/bun": "1.4.2",
 		"@types/react": "~19.2.18",
 		"babel-preset-expo": "~57.0.10",
