@@ -5,7 +5,7 @@ import type {
 	ReminderState,
 } from "@health/contracts/reminders";
 
-import { roundDoses } from "./medpass";
+import { marGrid, roundDoses } from "./medpass";
 
 type Dose = ReminderHistory["occurrences"][number];
 
@@ -67,5 +67,31 @@ describe("roundDoses", () => {
 			now,
 		).map((d) => d.occurrence.id);
 		expect(ids).toEqual(["missed", "open", "recent", "soon"]);
+	});
+});
+
+describe("marGrid", () => {
+	const names = (identity: string) => `Name ${identity}`;
+
+	test("rows by time of day, columns by the newest dates, cells by outcome", () => {
+		const grid = marGrid(
+			[
+				dose("3", day(22, 20), "unresolved"),
+				dose("2", day(22, 8), "caregiver_confirmed", { actor: "kim" }),
+				dose("2-old", day(22, 8), "unresolved"),
+				dose("1", day(21, 8), "declined"),
+				dose("0", day(20, 8), "self_reported_complete"),
+				dose("w", day(22, 9), "caregiver_confirmed", { kind: "meal" }),
+			],
+			names,
+			2,
+		);
+		expect(grid.dates).toEqual(["2026-10-21", "2026-10-22"]);
+		expect(grid.rows.map((r) => r.minute)).toEqual([8 * 60, 20 * 60]);
+		expect(grid.rows[0]?.cells).toEqual({
+			"2026-10-21": "Declined",
+			"2026-10-22": "Name kim",
+		});
+		expect(grid.rows[1]?.cells).toEqual({ "2026-10-22": "Missed" });
 	});
 });
